@@ -80,7 +80,7 @@ desktopRules = composeAll
 desktopBar :: StatusBarConfig
 desktopBar = statusBarProp "xmobar \"$HOME/.config/xmobar/xmobarrc\"" (clickablePP desktopPP)
   <> statusBarGeneric
-    "trayer --edge top --align right --widthtype request --heighttype pixel --height 18 --padding 2 --iconspacing 2 --transparent true --alpha 0 --SetDockType true --SetPartialStrut false --distance 5 --distancefrom top --tint 0x090909"
+    "trayer --edge top --align right --widthtype request --heighttype pixel --height 20 --padding 2 --iconspacing 2 --transparent true --alpha 0 --SetDockType true --SetPartialStrut false --distance 4 --distancefrom top --tint 0x090909"
     (pure ())
 
 desktopPP :: PP

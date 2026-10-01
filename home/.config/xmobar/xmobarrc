@@ -22,5 +22,5 @@ Config
       ]
   , sepChar = "%"
   , alignSep = "}{"
-  , template = " %UnsafeXMonadLog% }{<fc=#978e86>%dnd%</fc> <fc=#514942>│</fc> <fc=#f3f3f3>%volume%</fc> <fc=#514942>│</fc> <fc=#877e76>%cpu%</fc> <fc=#514942>│</fc> <fc=#877e76>%memory%</fc> <fc=#514942>│</fc> <fc=#aaa198>%gpu%</fc> <fc=#514942>│</fc> <fc=#aaa198>%network%</fc> <fc=#514942>│</fc> %clock%<hspace=96/>"
+  , template = " %UnsafeXMonadLog% }{<fc=#978e86>%dnd%</fc> <fc=#514942>│</fc> <fc=#f3f3f3>%volume%</fc> <fc=#514942>│</fc> <fc=#877e76>%cpu%</fc> <fc=#514942>│</fc> <fc=#877e76>%memory%</fc> <fc=#514942>│</fc> <fc=#aaa198>%gpu%</fc> <fc=#514942>│</fc> <fc=#aaa198>%network%</fc> <fc=#514942>│</fc> %clock%<hspace=82/>"
   }
