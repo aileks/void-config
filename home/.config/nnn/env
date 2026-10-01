@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 export NNN_OPTS="adeExHu"
-export NNN_COLORS='#0405060704050607;45674567'
-export NNN_FCOLORS='030304020706060801030308'
+export NNN_COLORS='#0305060703050607;35673567'
+export NNN_FCOLORS='030305020706060501030305'
 export NNN_BMS="h:$HOME;d:$HOME/Downloads;c:${XDG_CONFIG_HOME:-$HOME/.config};e:/media/aileks/External"
 export NNN_PLUG='g:-!git log;i:-!git diff;x:!chmod +x "$nnn"'
 export NNN_TRASH=1

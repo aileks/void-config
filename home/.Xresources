@@ -16,10 +16,10 @@ Xft.rgba: rgb
 *.color6:  #9e958d
 *.color7:  #e0d7ce
 *.color8:  #635b53
-*.color9:  #877e76
-*.color10:  #978e86
-*.color11:  #aaa198
-*.color12:  #7b726b
-*.color13:  #8e857d
-*.color14:  #9e958d
+*.color9:  #a79e96
+*.color10:  #b7aea6
+*.color11:  #cac1b8
+*.color12:  #9b928b
+*.color13:  #aea59d
+*.color14:  #beb5ad
 *.color15:  #fcf2e9

@@ -80,7 +80,7 @@ desktopRules = composeAll
 desktopBar :: StatusBarConfig
 desktopBar = statusBarProp "xmobar \"$HOME/.config/xmobar/xmobarrc\"" (clickablePP desktopPP)
   <> statusBarGeneric
-    "trayer --edge top --align right --widthtype request --heighttype pixel --height 20 --padding 2 --iconspacing 2 --transparent true --alpha 0 --SetDockType true --SetPartialStrut false --distance 4 --distancefrom top --tint 0x090909"
+    "trayer --edge top --align right --widthtype request --heighttype pixel --height 20 --padding 2 --iconspacing 2 --transparent true --alpha 0 --SetDockType true --SetPartialStrut false --distance 4 --distancefrom top --tint 0x1b1917"
     (pure ())
 
 desktopPP :: PP
@@ -88,7 +88,7 @@ desktopPP = def
   { ppCurrent = xmobarColor "#090909" "#f3f3f3" . pad
   , ppVisible = xmobarColor "#f3f3f3" "" . pad
   , ppHidden = xmobarColor "#f3f3f3" "" . pad
-  , ppHiddenNoWindows = xmobarColor "#514942" "" . pad
+  , ppHiddenNoWindows = xmobarColor "#8e857d" "" . pad
   , ppUrgent = xmobarColor "#aaa198" "" . pad
   , ppLayout = xmobarColor "#978e86" ""
   , ppTitle = xmobarColor "#f3f3f3" "" . shorten 60

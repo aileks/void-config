@@ -6,7 +6,7 @@
 export PATH="$HOME/.config/emacs/bin:$HOME/.local/bin:$PATH"
 export NPM_CONFIG_PREFIX="$HOME/.local"
 export GREP_COLORS='mt=1;36'
-export LS_COLORS='rs=0:fi=37:di=34:ln=36:ex=32:pi=33:so=33:bd=33:cd=33:or=31:mi=31:su=32:sg=32:tw=34:ow=34:st=34:*.tar=35:*.gz=35:*.bz2=35:*.xz=35:*.zst=35:*.zip=35:*.7z=35:*.rar=35:*.conf=33:*.ini=33:*.toml=33'
+export LS_COLORS='rs=0:fi=37:di=35:ln=36:ex=32:pi=33:so=33:bd=33:cd=33:or=31:mi=31:su=32:sg=32:tw=35:ow=35:st=35:*.tar=35:*.gz=35:*.bz2=35:*.xz=35:*.zst=35:*.zip=35:*.7z=35:*.rar=35:*.conf=33:*.ini=33:*.toml=33'
 export EDITOR='emacsclient -t --alternate-editor='
 export VISUAL="$EDITOR"
 export SSH_AUTH_SOCK="$HOME/.bitwarden-ssh-agent.sock"
@@ -240,8 +240,9 @@ make_prompt() {
   local reset=$'\e[0m'
   local bold=$'\e[1m'
   local error=$'\e[38;2;170;161;152m'
-  local primary=$'\e[38;2;151;142;134m'
+  local primary=$'\e[38;2;183;174;166m'
   local secondary=$'\e[38;2;142;133;125m'
+  local bright_secondary=$'\e[38;2;174;165;157m'
   local tertiary=$'\e[38;2;170;161;152m'
   local muted=$'\e[38;2;135;126;118m'
   local info=$'\e[38;2;243;243;243m'
@@ -278,7 +279,7 @@ make_prompt() {
   PS1+="${jobs_segment}"
   PS1+=" \[${muted}\]• \[${host}\]\h\[${reset}\]"
   PS1+="${status_segment}"
-  PS1+="\n\[${secondary}${bold}\]❯\[${reset}\] "
+  PS1+="\n\[${bright_secondary}${bold}\]❯\[${reset}\] "
 }
 
 _prompt_command() {

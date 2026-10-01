@@ -12,25 +12,33 @@ cd ~/.dotfiles
 
 ## Colors
 
-| Color      | Hex       |
-| ---------- | --------- |
-| foreground | `#f3f3f3` |
-| background | `#090909` |
-| surface    | `#1b1917` |
-| accent     | `#978e86` |
-| color 0    | `#514942` |
-| color 1    | `#877e76` |
-| color 2    | `#978e86` |
-| color 3    | `#aaa198` |
-| color 4    | `#7b726b` |
-| color 5    | `#8e857d` |
-| color 6    | `#9e958d` |
-| color 7    | `#e0d7ce` |
-| color 8    | `#635b53` |
-| color 9    | `#a79e96` |
-| color 10   | `#b7aea6` |
-| color 11   | `#cac1b8` |
-| color 12   | `#9b928b` |
-| color 13   | `#aea59d` |
-| color 14   | `#beb5ad` |
-| color 15   | `#fcf2e9` |
+| Role                        | Color     |
+| --------------------------- | --------- |
+| Background                  | `#090909` |
+| Surface                     | `#1b1917` |
+| Foreground                  | `#f3f3f3` |
+| Accent                      | `#978e86` |
+| Comments, italic            | `#8a8179` |
+| Strings, numbers, constants | `#aaa198` |
+| Variables, properties       | `#c1b8af` |
+| Keywords, types, bold       | `#e0d7ce` |
+| Functions, bold             | `#fcf2e9` |
+| Control borders             | `#7b726b` |
+| Muted UI text               | `#877e76` |
+| Hover                       | `#26221f` |
+| Progress fill               | `#736a63` |
+| Borders                     | `#514942` |
+| Shadow                      | `#463e37` |
+
+### ANSI
+
+| ANSI definition | Normal    | Bright    |
+| --------------- | --------- | --------- |
+| Black           | `#8a8179` | `#8a8179` |
+| Red             | `#8c837b` | `#8c837b` |
+| Green           | `#978e86` | `#978e86` |
+| Yellow          | `#aaa198` | `#aaa198` |
+| Blue            | `#8b827a` | `#8b827a` |
+| Magenta         | `#8e857d` | `#8e857d` |
+| Cyan            | `#9e958d` | `#9e958d` |
+| White           | `#e0d7ce` | `#fcf2e9` |

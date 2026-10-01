@@ -19,21 +19,32 @@ foreground = "#090909"
 background = "#978e86"
 
 [colors.normal]
-black = "#514942"
-red = "#877e76"
+black = "#8a8179"
+red = "#8c837b"
 green = "#978e86"
 yellow = "#aaa198"
-blue = "#7b726b"
+blue = "#8b827a"
 magenta = "#8e857d"
 cyan = "#9e958d"
 white = "#e0d7ce"
 
 [colors.bright]
-black = "#635b53"
-red = "#877e76"
+black = "#8a8179"
+red = "#8c837b"
 green = "#978e86"
 yellow = "#aaa198"
-blue = "#7b726b"
+blue = "#8b827a"
 magenta = "#8e857d"
 cyan = "#9e958d"
 white = "#fcf2e9"
+
+# Explicit dim colors keep faint terminal text readable.
+[colors.dim]
+black = "#8a8179"
+red = "#8c837b"
+green = "#978e86"
+yellow = "#aaa198"
+blue = "#8b827a"
+magenta = "#8e857d"
+cyan = "#9e958d"
+white = "#e0d7ce"

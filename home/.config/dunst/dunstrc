@@ -21,21 +21,21 @@ format = "<b>%s</b>\n%b"
 timeout = 5
 
 [urgency_low]
-background = "#090909"
+background = "#1b1917"
 foreground = "#f3f3f3"
 frame_color = "#514942"
 highlight = "#9e958d"
 timeout = 4
 
 [urgency_normal]
-background = "#090909"
+background = "#1b1917"
 foreground = "#f3f3f3"
 frame_color = "#514942"
 highlight = "#9e958d"
 timeout = 5
 
 [urgency_critical]
-background = "#090909"
+background = "#1b1917"
 foreground = "#f3f3f3"
 frame_color = "#aaa198"
 highlight = "#aaa198"
