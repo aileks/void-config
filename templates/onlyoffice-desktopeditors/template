@@ -1,0 +1,25 @@
+# Template file for 'onlyoffice-desktopeditors'
+pkgname=onlyoffice-desktopeditors
+version=9.4.0
+revision=1
+archs="x86_64"
+create_wrksrc=yes
+nopie=yes
+nostrip=yes
+hostmakedepends="binutils tar xz"
+depends="gtk+3 gst-plugins-base1 nss"
+short_desc="Office suite that combines text, spreadsheet and presentation editors"
+maintainer="Kieran Pedrick <kieran@aileks.dev>"
+license="AGPL-3.0-only"
+homepage="https://www.onlyoffice.com"
+distfiles="https://github.com/ONLYOFFICE/DesktopEditors/releases/download/v${version}/onlyoffice-desktopeditors_amd64.deb"
+checksum=4271434e81be42b1559fd989d24bf6d413482f278dc6a5e328202a4fc1a18649
+
+do_extract() {
+  :
+}
+
+do_install() {
+  ar p "${XBPS_SRCDISTDIR}/${pkgname}-${version}/onlyoffice-desktopeditors_amd64.deb" data.tar.xz \
+    | tar -xJf - -C "${DESTDIR}"
+}

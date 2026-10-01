@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+set -Eeuo pipefail
+
+if [[ $(dunstctl is-paused 2>/dev/null || echo false) == true ]]; then
+  printf '󰂛 DND\n'
+else
+  printf '󰂚\n'
+fi

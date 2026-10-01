@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+set -Eeuo pipefail
+
+line=$(nmcli -t -f STATE,TYPE,CONNECTION device \
+  | awk -F: '$1=="connected" && $3!="" { print $2 ":" $3; exit }')
+if [[ -z $line ]]; then
+  printf '󰖪 offline\n'
+  exit 0
+fi
+
+type=${line%%:*}
+name=${line#*:}
+name=${name:0:16}
+if [[ $type == wifi ]]; then
+  printf '󰖩 %s\n' "$name"
+else
+  printf '󰈀 Wired\n'
+fi

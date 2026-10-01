@@ -1,0 +1,31 @@
+engine = "whisper"
+state_file = "auto"
+
+[hotkey]
+enabled = false
+
+[audio]
+device = "default"
+max_duration_secs = 60
+
+[whisper]
+model = "large-v3-turbo"
+language = "en"
+on_demand_loading = true
+
+[output]
+mode = "type"
+driver_order = ["dotool", "xclip"]
+dotool_xkb_layout = "us"
+fallback_to_clipboard = true
+pre_type_delay_ms = 250
+auto_submit = false
+
+[output.notification]
+on_recording_start = false
+on_recording_stop = false
+on_transcription = false
+
+[osd]
+# voxtype-session starts the X11 overlay instead of the bundled Wayland OSD.
+enabled = false

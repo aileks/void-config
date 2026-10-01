@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+set -Eeuo pipefail
+
+hwmon=/sys/devices/pci0000:00/0000:00:18.3/hwmon
+[[ -d $hwmon ]] || exit 0
+
+read -r _ user1 nice1 system1 idle1 _ </proc/stat
+sleep 0.25
+read -r _ user2 nice2 system2 idle2 _ </proc/stat
+
+busy1=$((user1 + nice1 + system1))
+busy2=$((user2 + nice2 + system2))
+
+busy=$((busy2 - busy1))
+total=$((busy2 + idle2 - busy1 - idle1))
+((total > 0)) || exit 0
+
+degrees=0
+for label in "$hwmon"/hwmon*/temp*_label; do
+  [[ $(<"$label") == Tccd* ]] || continue
+  value=$(<"${label%_label}_input")
+  ((value > degrees)) && degrees=$value
+done
+if ((degrees == 0)); then
+  degrees=$(<"$hwmon"/hwmon*/temp1_input)
+fi
+
+printf ' %d%% %d°C\n' "$((busy * 100 / total))" "$((degrees / 1000))"

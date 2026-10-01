@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+set -Eeuo pipefail
+
+build_directory=${XDG_CACHE_HOME:-$HOME/.cache}/xmonad/build
+package_database=/usr/lib/xmonad/ghc-$(ghc --numeric-version)/package.db
+mkdir -p "$build_directory"
+
+exec ghc --make xmonad.hs -static -i -ilib -fforce-recomp -main-is main -v0 \
+  -package-env - -no-user-package-db -package-db "$package_database" \
+  -package xmonad -package xmonad-contrib -package X11 \
+  -odir "$build_directory" -hidir "$build_directory" -o "$1"

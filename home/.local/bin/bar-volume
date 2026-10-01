@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+set -Eeuo pipefail
+
+volume=$(pactl get-sink-volume @DEFAULT_SINK@ 2>/dev/null \
+  | awk 'NR==1{match($0,/[0-9]+%/); print substr($0,RSTART,RLENGTH-1)}')
+muted=$(pactl get-sink-mute @DEFAULT_SINK@ 2>/dev/null || true)
+
+if [[ $muted == *yes* ]]; then
+  printf '󰝟 %s%%\n' "${volume:-0}"
+else
+  printf '󰕾 %s%%\n' "${volume:-0}"
+fi

@@ -1,0 +1,6 @@
+@import url("/home/aileks/.local/share/themes/Dustveil-Dark/gtk-3.0/gtk.css");
+
+* {
+  border-radius: 0;
+  -gtk-outline-radius: 0;
+}

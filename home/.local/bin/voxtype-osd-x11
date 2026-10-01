@@ -1,0 +1,194 @@
+#!/usr/bin/python3
+
+import math
+import os
+import signal
+import socket
+import struct
+import time
+from pathlib import Path
+
+import cairo
+import gi
+
+os.environ["GDK_BACKEND"] = "x11"
+gi.require_version("Gdk", "3.0")
+gi.require_version("Gtk", "3.0")
+gi.require_foreign("cairo")
+from gi.repository import Gdk, GLib, Gtk
+
+
+class VoxtypeOverlay(Gtk.Window):
+    WIDTH = 320
+    HEIGHT = 96
+    # Voxtype 1.0.1 sends native-endian seq, min, max, and peak dBFS.
+    FRAME = struct.Struct("=Ifff")
+
+    def __init__(self):
+        super().__init__(type=Gtk.WindowType.POPUP)
+        self.runtime = Path(os.environ["XDG_RUNTIME_DIR"]) / "voxtype"
+        self.connection = None
+        self.pending = bytearray()
+        self.retry_at = 0.0
+        self.last_frame_at = 0.0
+        self.peak_dbfs = -120.0
+        self.state = "idle"
+
+        self.set_title("Voxtype")
+        self.set_accept_focus(False)
+        self.set_focus_on_map(False)
+        self.set_type_hint(Gdk.WindowTypeHint.NOTIFICATION)
+        self.set_keep_above(True)
+        self.set_resizable(False)
+        self.set_default_size(self.WIDTH, self.HEIGHT)
+        self.meter = Gtk.DrawingArea()
+        self.meter.set_size_request(self.WIDTH, self.HEIGHT)
+        self.meter.connect("draw", self.draw_meter)
+        self.add(self.meter)
+        self.realize()
+        self.get_window().input_shape_combine_region(cairo.Region(), 0, 0)
+        GLib.timeout_add(50, self.refresh)
+
+    def disconnect_audio(self):
+        if self.connection is not None:
+            self.connection.close()
+        self.connection = None
+        self.pending.clear()
+        self.peak_dbfs = -120.0
+
+    def read_levels(self, now):
+        if self.connection is None:
+            if now < self.retry_at:
+                return
+            self.retry_at = now + 1
+            connection = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+            connection.setblocking(False)
+            try:
+                connection.connect(str(self.runtime / "audio.sock"))
+            except OSError:
+                connection.close()
+                return
+            self.connection = connection
+
+        try:
+            chunk = self.connection.recv(16384)
+        except BlockingIOError:
+            return
+        except OSError:
+            self.disconnect_audio()
+            return
+        if not chunk:
+            self.disconnect_audio()
+            return
+
+        self.pending.extend(chunk)
+        complete_bytes = len(self.pending) // self.FRAME.size * self.FRAME.size
+        peaks = [
+            frame[3]
+            for frame in self.FRAME.iter_unpack(self.pending[:complete_bytes])
+            if math.isfinite(frame[3])
+        ]
+        del self.pending[:complete_bytes]
+        if peaks:
+            self.peak_dbfs = max(peaks)
+            self.last_frame_at = now
+
+    def refresh(self):
+        now = time.monotonic()
+        self.read_levels(now)
+        try:
+            state = (self.runtime / "state").read_text().strip()
+        except OSError:
+            state = "idle"
+        if self.connection is None:
+            state = "idle"
+        if now - self.last_frame_at > 0.3:
+            self.peak_dbfs = -120.0
+        self.state = state
+
+        if state not in ("recording", "transcribing"):
+            self.hide()
+            return GLib.SOURCE_CONTINUE
+
+        if not self.get_visible():
+            display = self.get_display()
+            active = self.get_screen().get_active_window()
+            if active is not None:
+                monitor = display.get_monitor_at_window(active)
+            else:
+                pointer = display.get_default_seat().get_pointer()
+                _, x, y = pointer.get_position()
+                monitor = display.get_monitor_at_point(x, y)
+            geometry = monitor.get_geometry()
+            self.move(
+                geometry.x + (geometry.width - self.WIDTH) // 2,
+                geometry.y + geometry.height - self.HEIGHT - 32,
+            )
+            self.show_all()
+        self.meter.queue_draw()
+        return GLib.SOURCE_CONTINUE
+
+    def draw_meter(self, widget, context):
+        width = widget.get_allocated_width()
+        height = widget.get_allocated_height()
+        recording = self.state == "recording"
+        accent = (
+            (151 / 255, 142 / 255, 134 / 255)
+            if recording
+            else (170 / 255, 161 / 255, 152 / 255)
+        )
+
+        context.set_source_rgb(9 / 255, 9 / 255, 9 / 255)
+        context.paint()
+        context.set_source_rgb(*accent)
+        context.set_line_width(2)
+        context.rectangle(1, 1, width - 2, height - 2)
+        context.stroke()
+        context.arc(21, 25, 4, 0, math.tau)
+        context.fill()
+        context.select_font_face(
+            "Iosevka", cairo.FONT_SLANT_NORMAL, cairo.FONT_WEIGHT_BOLD
+        )
+        context.set_font_size(17)
+        context.move_to(34, 31)
+        context.show_text("Recording" if recording else "Transcribing")
+
+        context.set_source_rgb(81 / 255, 73 / 255, 66 / 255)
+        context.rectangle(18, 46, width - 36, 10)
+        context.fill()
+        context.set_source_rgb(*accent)
+        if recording:
+            level = max(0.0, min(1.0, (self.peak_dbfs + 60) / 60))
+            if self.peak_dbfs >= -3:
+                context.set_source_rgb(170 / 255, 161 / 255, 152 / 255)
+            context.rectangle(18, 46, (width - 36) * level, 10)
+        else:
+            progress = (math.sin(time.monotonic() * 3) + 1) / 2
+            context.rectangle(18 + (width - 84) * progress, 46, 48, 10)
+        context.fill()
+
+        context.set_source_rgb(243 / 255, 243 / 255, 243 / 255)
+        context.select_font_face(
+            "Iosevka", cairo.FONT_SLANT_NORMAL, cairo.FONT_WEIGHT_NORMAL
+        )
+        context.set_font_size(13)
+        context.move_to(18, 79)
+        context.show_text(
+            "Release F9 to transcribe" if recording else "Processing speech..."
+        )
+        return False
+
+
+def main():
+    overlay = VoxtypeOverlay()
+    for signum in (signal.SIGTERM, signal.SIGINT, signal.SIGHUP):
+        GLib.unix_signal_add(GLib.PRIORITY_DEFAULT, signum, Gtk.main_quit)
+    try:
+        Gtk.main()
+    finally:
+        overlay.disconnect_audio()
+        overlay.destroy()
+
+
+if __name__ == "__main__":
+    main()

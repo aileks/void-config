@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+
+set -Eeuo pipefail
+umask 077
+
+mode=${1:-}
+case "$mode" in
+  region | window | full) ;;
+  *)
+    printf 'usage: screenshot <region|window|full>\n' >&2
+    exit 2
+    ;;
+esac
+
+pictures_directory=$(xdg-user-dir PICTURES 2>/dev/null || true)
+directory="${pictures_directory:-$HOME/Pictures}/Screenshots"
+mkdir -p "$directory"
+file="$directory/$(date +%Y-%m-%d_%H-%M-%S-%N).png"
+
+case "$mode" in
+  region) args=(-s) ;;
+  window) args=(-i "$(xdotool getactivewindow)") ;;
+  full) args=() ;;
+esac
+
+if ! maim "${args[@]}" "$file"; then
+  rm -f -- "$file"
+  if [[ $mode == region ]]; then
+    exit 0
+  fi
+  notify-send -u critical -a Screenshot 'Screenshot failed' 'Could not capture the screen.' || true
+  exit 1
+fi
+
+if ! xclip -selection clipboard -t image/png <"$file"; then
+  notify-send -u critical -a Screenshot 'Screenshot saved' 'Could not copy the screenshot to the clipboard.' || true
+  exit 1
+fi
+
+notify-send -a Screenshot -i "$file" 'Screenshot saved and copied' "$file" || true

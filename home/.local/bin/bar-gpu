@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+set -Eeuo pipefail
+
+command -v nvidia-smi >/dev/null 2>&1 || exit 0
+
+read -r utilization temperature < <(
+  nvidia-smi --query-gpu=utilization.gpu,temperature.gpu --format=csv,noheader,nounits | tr ',' ' '
+)
+printf '󰢮 %s%% %s°C\n' "$utilization" "$temperature"

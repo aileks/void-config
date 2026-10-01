@@ -1,0 +1,11 @@
+configuration {
+    modi: "drun,run";
+    font: "Iosevka Nerd Font Propo 16";
+    terminal: "alacritty";
+    show-icons: false;
+    display-drun: "";
+    display-run: "";
+    drun-display-format: "{name}";
+}
+
+@theme "dustveil"

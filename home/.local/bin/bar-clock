@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+set -Eeuo pipefail
+
+printf '\uf017 %s\n' "$(date '+%b %d %H:%M')"

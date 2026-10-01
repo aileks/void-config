@@ -1,0 +1,27 @@
+# Template file for 'localsend'
+pkgname=localsend
+version=1.18.2
+revision=1
+archs="x86_64"
+create_wrksrc=yes
+hostmakedepends="binutils tar zstd"
+depends="gtk+3"
+short_desc="Share files to nearby devices over your local network"
+maintainer="Kieran Pedrick <kieran@aileks.dev>"
+license="Apache-2.0"
+homepage="https://localsend.org"
+distfiles="https://github.com/localsend/localsend/releases/download/v${version}/LocalSend-${version}-linux-x86-64.deb"
+checksum=cc42a4f3eacdcb25ec31f0016b1272acb003145ab30484db8965450e20c72cd2
+
+do_extract() {
+  :
+}
+
+do_install() {
+  ar p "${XBPS_SRCDISTDIR}/${pkgname}-${version}/LocalSend-${version}-linux-x86-64.deb" data.tar.zst \
+    | tar --zstd -xf - -C "${DESTDIR}"
+  vsed -i -e 's/^Exec=localsend_app/Exec=localsend/' \
+    "${DESTDIR}/usr/share/applications/localsend_app.desktop"
+  vmkdir usr/bin
+  ln -s /opt/localsend_app/localsend_app "${DESTDIR}/usr/bin/localsend"
+}

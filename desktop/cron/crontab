@@ -1,0 +1,1 @@
+0 * * * * PATH="$HOME/.local/bin:/usr/local/bin:/usr/bin:/bin" "$HOME/.local/bin/home-backup" --if-due

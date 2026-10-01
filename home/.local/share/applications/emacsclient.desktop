@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Emacs (Client)
+Exec=emacsclient --create-frame --alternate-editor= -- %F
+Icon=emacs
+Type=Application
+Terminal=false
+Categories=Utility;TextEditor;
+MimeType=text/plain;
+StartupWMClass=Emacs

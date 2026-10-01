@@ -1,0 +1,21 @@
+# Template file for 'voxtype'
+pkgname=voxtype
+version=1.0.1
+revision=1
+archs="x86_64"
+create_wrksrc=yes
+depends="alsa-lib libgcc libstdc++ vulkan-loader"
+short_desc="Local voice typing with Whisper and Vulkan acceleration"
+maintainer="Kieran Pedrick <kieran@aileks.dev>"
+license="MIT"
+homepage="https://voxtype.io"
+distfiles="https://github.com/peteonrails/voxtype/releases/download/v${version}/voxtype-${version}-linux-x86_64-vulkan
+ https://raw.githubusercontent.com/peteonrails/voxtype/v${version}/LICENSE"
+checksum="c569d038057464aa60290296794bcbd79b928ee0efd038e33062a4c015558ed8
+ 31123c45b4ff9cb5fd9e01083350fea6ccaf14969013fd48e4c95fdf89e6eb4b"
+skip_extraction="voxtype-${version}-linux-x86_64-vulkan LICENSE"
+
+do_install() {
+  vbin "${XBPS_SRCDISTDIR}/${pkgname}-${version}/voxtype-${version}-linux-x86_64-vulkan" voxtype
+  vlicense "${XBPS_SRCDISTDIR}/${pkgname}-${version}/LICENSE"
+}

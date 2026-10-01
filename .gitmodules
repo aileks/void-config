@@ -1,0 +1,3 @@
+[submodule "config/doom"]
+	path = home/.config/doom
+	url = https://github.com/aileks/doom

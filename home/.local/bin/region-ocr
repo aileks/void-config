@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+set -Eeuo pipefail
+
+umask 077
+directory=$(mktemp -d "${XDG_RUNTIME_DIR:?}/ocr.XXXXXXXX")
+trap 'rm -rf -- "$directory"' EXIT
+trap 'exit 130' INT TERM HUP
+
+if ! maim -s "$directory/image.png" 2>/dev/null; then
+  exit 0
+fi
+
+if ! tesseract-ocr "$directory/image.png" stdout -l eng >"$directory/text" 2>/dev/null; then
+  notify-send -u critical 'Text recognition failed' || true
+  exit 1
+fi
+
+if ! grep -q '[^[:space:]]' "$directory/text"; then
+  notify-send 'No text found' || true
+  exit 0
+fi
+
+if ! xclip -selection clipboard <"$directory/text"; then
+  notify-send -u critical 'Could not copy recognized text' || true
+  exit 1
+fi
+
+notify-send 'Recognized text copied' || true

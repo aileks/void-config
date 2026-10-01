@@ -1,0 +1,55 @@
+/.cache/
+/.local/share/Trash/
+/.thumbnails/
+/.local/share/recently-used.xbel
+/.xsession-errors
+/.xsession-errors.old
+/.zcompdump*
+/*.sock
+/.Xauthority-c
+/.ICEauthority-c
+/.mozilla/firefox/*/cache2/
+/.mozilla/firefox/*/startupCache/
+/.config/google-chrome/*/Cache/
+/.config/google-chrome/*/Code Cache/
+/.config/google-chrome/*/GPUCache/
+/.config/chromium/*/Cache/
+/.config/chromium/*/Code Cache/
+/.config/chromium/*/GPUCache/
+/.config/BraveSoftware/Brave-Browser/*/Cache/
+/.config/BraveSoftware/Brave-Browser/*/Code Cache/
+/.config/BraveSoftware/Brave-Browser/*/GPUCache/
+/.npm/_cacache/
+/.npm/_logs/
+/.local/share/pnpm/store/
+/.local/share/pnpm/store-v3/
+/.local/share/pnpm/store-v10/
+/.yarn/cache/
+/.yarn/unplugged/
+/.pnpm-store/
+/.cargo/registry/
+/.cargo/git/
+/go/pkg/mod/
+/go/pkg/sumdb/
+**/__pycache__/
+**/*.pyc
+**/*.pyo
+**/.pytest_cache/
+**/.mypy_cache/
+**/.ruff_cache/
+**/.tox/
+**/.nox/
+**/.venv/
+**/venv/
+**/node_modules/
+# Container caches are disposable.
+/.local/share/containers/
+/.docker/buildx/cache/
+/.compose-cache/
+/.nix-defexpr/
+/.pki/
+/.local/share/pki/
+/.local/share/uv/
+/.local/share/Steam/steamapps/
+/.steam/steam/steamapps/
+/.config/emacs/.local/straight/

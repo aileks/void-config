@@ -1,0 +1,50 @@
+[global]
+dmenu = rofi -dmenu -i -lines 3 -p Notifications
+follow = none
+width = 380
+height = (0, 120)
+origin = top-right
+offset = (3, 28)
+frame_width = 2
+frame_color = "#514942"
+separator_color = frame
+font = Iosevka Nerd Font 12
+icon_position = left
+icon_theme = Papirus-Dark
+max_icon_size = 32
+gap_size = 6
+padding = 10
+horizontal_padding = 12
+text_icon_padding = 10
+corner_radius = 0
+format = "<b>%s</b>\n%b"
+timeout = 5
+
+[urgency_low]
+background = "#090909"
+foreground = "#f3f3f3"
+frame_color = "#514942"
+highlight = "#9e958d"
+timeout = 4
+
+[urgency_normal]
+background = "#090909"
+foreground = "#f3f3f3"
+frame_color = "#514942"
+highlight = "#9e958d"
+timeout = 5
+
+[urgency_critical]
+background = "#090909"
+foreground = "#f3f3f3"
+frame_color = "#aaa198"
+highlight = "#aaa198"
+timeout = 0
+
+[volume]
+appname = volume
+format = "<b>%s</b> %b"
+
+[brightness]
+appname = brightness
+format = "<b>%s</b> %b"

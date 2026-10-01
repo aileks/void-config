@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+
+set -Eeuo pipefail
+
+sink_volume() {
+  pactl get-sink-volume @DEFAULT_SINK@ \
+    | awk 'NR==1{match($0,/[0-9]+%/); print substr($0,RSTART,RLENGTH-1)}'
+}
+
+notify_volume() {
+  local value
+  value=$(sink_volume) || return 0
+  dunstify -a volume -h int:value:"$value" -h string:x-dunst-stack-tag:volume Volume "$value%" || true
+}
+
+target=${1:?usage: audio <sink|source> <up|down|mute>}
+action=${2:?usage: audio <sink|source> <up|down|mute>}
+
+case "$target $action" in
+  'sink up')
+    volume=$(sink_volume) || volume=0
+    pactl set-sink-volume @DEFAULT_SINK@ "$((volume > 95 ? 100 : volume + 5))%"
+    notify_volume
+    ;;
+  'sink down')
+    pactl set-sink-volume @DEFAULT_SINK@ -5%
+    notify_volume
+    ;;
+  'sink mute')
+    pactl set-sink-mute @DEFAULT_SINK@ toggle
+    if [[ $(pactl get-sink-mute @DEFAULT_SINK@) == *yes* ]]; then
+      dunstify -a volume -h string:x-dunst-stack-tag:volume Muted || true
+    else
+      notify_volume
+    fi
+    ;;
+  'source mute')
+    pactl set-source-mute @DEFAULT_SOURCE@ toggle
+    ;;
+  *)
+    printf 'usage: audio <sink|source> <up|down|mute>\n' >&2
+    exit 2
+    ;;
+esac

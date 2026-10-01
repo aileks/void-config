@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+
+set -Eeuo pipefail
+
+umask 077
+exec 9>"${XDG_RUNTIME_DIR:?}/voxtype-hold.lock"
+flock -n 9 || exit 0
+state_file=$XDG_RUNTIME_DIR/voxtype/state
+
+if [[ ! -r $state_file ]]; then
+  notify-send -u critical 'Voxtype is not ready' 'Start voxtype-session first.'
+  exit 1
+fi
+[[ $(<"$state_file") == idle ]] || exit 0
+
+trap 'voxtype record cancel >/dev/null 2>&1 || true' EXIT
+trap 'exit 130' HUP INT TERM
+
+if ! voxtype record start; then
+  notify-send -u critical 'Voxtype is not ready' 'Check the session log.'
+  exit 1
+fi
+
+# Wait for acknowledgement before sending stop, including on a quick tap.
+for ((attempt = 0; attempt < 100; attempt++)); do
+  if [[ -r $state_file && $(<"$state_file") == recording ]]; then
+    if IFS= read -r action && [[ $action == release ]]; then
+      if [[ -r $state_file && $(<"$state_file") == recording ]]; then
+        voxtype record stop
+      fi
+      trap - EXIT
+    fi
+    exit 0
+  fi
+  sleep 0.05
+done
+
+notify-send -u critical 'Voxtype could not record' 'Check the microphone and session log.'
+exit 1

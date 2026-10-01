@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=nnn File Manager
+Comment=Terminal file manager
+Exec=nnn -e %F
+Icon=system-file-manager
+Terminal=true
+Categories=System;FileTools;FileManager;ConsoleOnly;
+MimeType=inode/directory;

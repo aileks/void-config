@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+set -Eeuo pipefail
+
+used_gb=$(awk '
+  /^MemTotal:/ { total = $2 }
+  /^MemAvailable:/ { available = $2 }
+  END { printf "%.1f", (total - available) / 1048576 }
+' /proc/meminfo)
+
+printf '\uefc5 %s GB\n' "$used_gb"
