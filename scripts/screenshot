@@ -12,7 +12,7 @@ case "$mode" in
     ;;
 esac
 
-pictures_directory=$(xdg-user-dir PICTURES 2>/dev/null || true)
+pictures_directory=$(xdg-user-dir PICTURES 2> /dev/null || true)
 directory="${pictures_directory:-$HOME/Pictures}/Screenshots"
 mkdir -p "$directory"
 file="$directory/$(date +%Y-%m-%d_%H-%M-%S-%N).png"
@@ -40,7 +40,7 @@ if ! grim "${args[@]}" "$file"; then
   exit 1
 fi
 
-if ! wl-copy --type image/png <"$file"; then
+if ! wl-copy --type image/png < "$file"; then
   notify-send -u critical -a Screenshot 'Screenshot saved' 'Could not copy the screenshot to the clipboard.' || true
   exit 1
 fi

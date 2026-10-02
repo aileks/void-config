@@ -13,7 +13,7 @@ if ! grim -g "$geometry" "$directory/image.png"; then
   exit 1
 fi
 
-if ! tesseract-ocr "$directory/image.png" stdout -l eng >"$directory/text" 2>/dev/null; then
+if ! tesseract-ocr "$directory/image.png" stdout -l eng > "$directory/text" 2> /dev/null; then
   notify-send -u critical 'Text recognition failed' || true
   exit 1
 fi
@@ -23,7 +23,7 @@ if ! grep -q '[^[:space:]]' "$directory/text"; then
   exit 0
 fi
 
-if ! wl-copy --type text/plain <"$directory/text"; then
+if ! wl-copy --type text/plain < "$directory/text"; then
   notify-send -u critical 'Could not copy recognized text' || true
   exit 1
 fi

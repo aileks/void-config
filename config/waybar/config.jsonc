@@ -100,14 +100,14 @@
     "scroll-step": 5,
     "max-volume": 100,
     "tooltip": false,
-    "on-click": "alacritty -e wiremix",
+    "on-click": "foot wiremix",
     "on-click-right": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
   },
   "cpu": {
     "format": " {usage}%",
     "interval": 5,
     "tooltip": false,
-    "on-click": "alacritty -e btop"
+    "on-click": "foot btop"
   },
   "temperature": {
     "hwmon-path-abs": "/sys/devices/pci0000:00/0000:00:18.3/hwmon",
@@ -125,7 +125,7 @@
     "exec": "nvidia-smi --query-gpu=utilization.gpu,temperature.gpu --format=csv,noheader,nounits | awk -F ', ' '{printf \"󰢮 %s%% %s°C\\n\", $1, $2}'",
     "interval": 5,
     "tooltip": false,
-    "on-click": "alacritty -e nvtop"
+    "on-click": "foot nvtop"
   },
   "network": {
     "format-wifi": "󰖩 {essid}",

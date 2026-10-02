@@ -42,13 +42,12 @@ alias gp='git push'
 alias gst='git status'
 alias gss='git status --short'
 alias gsw='git switch'
-alias xin='doas xbps-install -S'
 alias xup='doas xbps-install -Su'
 alias xr='doas xbps-remove -R'
 alias xro='doas xbps-remove -O'
 alias xqo='xbps-query -o'
 
-hf() {
+fh() {
     local selection
     selection=$(history | fzf --tac | sed 's/^[[:space:]]*[0-9]*[[:space:]]*//') || return
     printf '%s' "$selection" | wl-copy --type text/plain

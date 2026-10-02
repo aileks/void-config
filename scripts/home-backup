@@ -4,15 +4,22 @@ set -Eeuo pipefail
 
 umask 077
 
+state_directory="${XDG_STATE_HOME:-$HOME/.local/state}/home-backup"
 only_if_due=false
 case ${1:-} in
   '') (($# == 0)) || exit 2 ;;
+  --save-session)
+    (($# == 1)) || exit 2
+    mkdir -p "$state_directory"
+    printf '%s\n' "${DBUS_SESSION_BUS_ADDRESS:?}" > "$state_directory/session-bus-address"
+    exit 0
+    ;;
   --if-due)
     (($# == 1)) || exit 2
     only_if_due=true
     ;;
   *)
-    printf 'usage: home-backup [--if-due]\n' >&2
+    printf 'usage: home-backup [--if-due|--save-session]\n' >&2
     exit 2
     ;;
 esac
@@ -30,20 +37,19 @@ timestamp="$(date -u +%Y-%m-%dT%H%M%SZ)"
 new_snapshot="$snapshots_directory/$timestamp"
 incomplete_snapshot="$snapshots_directory/.$timestamp.incomplete"
 excludes="${XDG_CONFIG_HOME:-$HOME/.config}/rsync-home.excludes"
-state_directory="${XDG_STATE_HOME:-$HOME/.local/state}/home-backup"
 status_file="$state_directory/status"
 success_file="$state_directory/last-success"
 mkdir -p "$state_directory"
 
 write_success_time() {
-  printf '%s\n' "$1" >"$success_file.tmp"
+  printf '%s\n' "$1" > "$success_file.tmp"
   mv -f -- "$success_file.tmp" "$success_file"
 }
 
 write_status() {
   local state=$1 message=${2:-}
   printf '%s %s%s\n' "$(date -u +%Y-%m-%dT%H%M%SZ)" "$state" \
-    "${message:+ $message}" >"$status_file.tmp"
+    "${message:+ $message}" > "$status_file.tmp"
   mv -f -- "$status_file.tmp" "$status_file"
 }
 
@@ -51,11 +57,11 @@ notify() {
   local session_bus_address=${DBUS_SESSION_BUS_ADDRESS:-}
   if [[ -z $session_bus_address ]]; then
     [[ -r $state_directory/session-bus-address ]] || return 0
-    IFS= read -r session_bus_address <"$state_directory/session-bus-address" || return 0
+    IFS= read -r session_bus_address < "$state_directory/session-bus-address" || return 0
   fi
   [[ -n $session_bus_address ]] || return 0
   DBUS_SESSION_BUS_ADDRESS="$session_bus_address" \
-    notify-send -a 'Home Backup' "Home Backup: $*" >/dev/null 2>&1 || true
+    notify-send -a 'Home Backup' "Home Backup: $*" > /dev/null 2>&1 || true
 }
 
 failed() {
@@ -69,7 +75,7 @@ failed() {
 
 trap failed ERR
 
-exec 9>"$state_directory/home-backup.lock"
+exec 9> "$state_directory/home-backup.lock"
 if ! flock -n 9; then
   printf 'home-backup is already running\n'
   exit 0
@@ -78,7 +84,7 @@ fi
 if "$only_if_due"; then
   last_success=''
   if [[ -r $success_file ]]; then
-    last_success=$(<"$success_file")
+    last_success=$(< "$success_file")
   elif [[ -L $latest_link && -d $latest_link ]]; then
     # stat the link itself: rsync preserves the source directory's mtime.
     last_success=$(stat -c %Y -- "$latest_link")
@@ -95,7 +101,7 @@ if "$only_if_due"; then
   if [[ -f $schedule_log ]] && (($(stat -c %s -- "$schedule_log") > 1048576)); then
     mv -f -- "$schedule_log" "$schedule_log.1"
   fi
-  exec >>"$schedule_log" 2>&1
+  exec >> "$schedule_log" 2>&1
   printf '%s Scheduled backup attempt\n' "$timestamp"
 fi
 

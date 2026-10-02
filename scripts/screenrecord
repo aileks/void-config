@@ -3,18 +3,18 @@
 set -Eeuo pipefail
 umask 077
 
-videos_directory=$(xdg-user-dir VIDEOS 2>/dev/null || true)
+videos_directory=$(xdg-user-dir VIDEOS 2> /dev/null || true)
 directory="${videos_directory:-$HOME/Videos}/Recordings"
 statefile="${XDG_RUNTIME_DIR:?}/screenrecord.state"
 
 recording_is_live() {
   local current_start_time process_state executable
   [[ ${pid:-} =~ ^[0-9]+$ && ${start_time:-} =~ ^[0-9]+$ ]] || return 1
-  kill -0 "$pid" 2>/dev/null || return 1
-  read -r process_state current_start_time < <(awk '{ print $3, $22 }' "/proc/$pid/stat" 2>/dev/null) || return 1
+  kill -0 "$pid" 2> /dev/null || return 1
+  read -r process_state current_start_time < <(awk '{ print $3, $22 }' "/proc/$pid/stat" 2> /dev/null) || return 1
   [[ $process_state != Z ]] || return 1
   [[ $current_start_time == "$start_time" ]] || return 1
-  executable=$(readlink -f "/proc/$pid/exe" 2>/dev/null) || return 1
+  executable=$(readlink -f "/proc/$pid/exe" 2> /dev/null) || return 1
   [[ ${executable##*/} == gpu-screen-recorder ]]
 }
 
@@ -24,7 +24,7 @@ read_state() {
     IFS= read -r pid || return 1
     IFS= read -r start_time || return 1
     IFS= read -r file || return 1
-  } <"$statefile"
+  } < "$statefile"
 }
 
 stop_recording() {
@@ -70,9 +70,6 @@ if [[ ${1:-} == menu ]]; then
     esac
     set -- "$mode" "$audio"
   fi
-elif [[ ${1:-} == inhibit ]]; then
-  exec elogind-inhibit --what=idle --who=screenrecord --why='Screen recording' \
-    --mode=block "$0" inhibit-watch "${@:2}"
 elif [[ ${1:-} == inhibit-watch ]]; then
   shift
   pid=${1:-}
@@ -86,7 +83,7 @@ elif [[ ${1:-} == inhibit-watch ]]; then
   exit 0
 fi
 
-exec 9>"$statefile.lock"
+exec 9> "$statefile.lock"
 flock -n 9 || exit 1
 
 mode=${1:-output}
@@ -142,11 +139,11 @@ case "$mode" in
     args=(-w screen)
     ;;
   region)
-    selection=$(slurp -f '%x %y %w %h' </dev/null) || exit 0
+    selection=$(slurp -f '%x %y %w %h' < /dev/null) || exit 0
     if [[ ! $selection =~ ^(-?[0-9]{1,5})\ (-?[0-9]{1,5})\ ([1-9][0-9]{0,4})\ ([1-9][0-9]{0,4})$ ]]; then
       exit 1
     fi
-    read -r x y width height <<<"$selection"
+    read -r x y width height <<< "$selection"
     args=(-w region -region "${width}x${height}+${x}+${y}")
     ;;
 esac
@@ -160,29 +157,32 @@ esac
 gpu-screen-recorder "${args[@]}" -f 60 "${audio_args[@]}" -c mp4 -o "$file" 9>&- &
 pid=$!
 sleep 0.2
-if ! kill -0 "$pid" 2>/dev/null || ! start_time=$(awk '{ print $22 }' "/proc/$pid/stat" 2>/dev/null); then
+if ! kill -0 "$pid" 2> /dev/null || ! start_time=$(awk '{ print $22 }' "/proc/$pid/stat" 2> /dev/null); then
   wait "$pid" || status=$?
   notify-send -u critical -a Recording 'Recording failed to start' \
     "gpu-screen-recorder exited with status ${status:-0}."
   exit 1
 fi
 
-coproc inhibitor { exec "$0" inhibit "$pid" "$start_time" 9>&-; }
+coproc inhibitor {
+  exec elogind-inhibit --what=idle --who=screenrecord --why='Screen recording' \
+    --mode=block "$0" inhibit-watch "$pid" "$start_time" 9>&-
+}
 inhibitor_fd=${inhibitor[0]:-}
 inhibitor_pid=${inhibitor_PID:-}
 if [[ -z $inhibitor_fd ]] || ! read -r -t 5 ready <&"$inhibitor_fd" || [[ $ready != READY ]]; then
   if [[ -n $inhibitor_pid ]]; then
-    kill "$inhibitor_pid" 2>/dev/null || true
-    wait "$inhibitor_pid" 2>/dev/null || true
+    kill "$inhibitor_pid" 2> /dev/null || true
+    wait "$inhibitor_pid" 2> /dev/null || true
   fi
-  kill -INT "$pid" 2>/dev/null || true
+  kill -INT "$pid" 2> /dev/null || true
   wait "$pid" || true
   notify-send -u critical -a Recording 'Recording failed' 'Could not prevent automatic locking while recording.'
   exit 1
 fi
 
 statefile_tmp="$statefile.tmp.$pid"
-printf '%s\n%s\n%s\n' "$pid" "$start_time" "$file" >"$statefile_tmp"
+printf '%s\n%s\n%s\n' "$pid" "$start_time" "$file" > "$statefile_tmp"
 mv "$statefile_tmp" "$statefile"
 
 notify-send -a Recording 'Recording started' "$file"

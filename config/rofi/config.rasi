@@ -1,7 +1,7 @@
 configuration {
     modi: "drun,run";
     font: "Iosevka Nerd Font Propo 16";
-    terminal: "alacritty";
+    terminal: "foot";
     show-icons: false;
     display-drun: "";
     display-run: "";

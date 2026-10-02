@@ -1,4 +1,4 @@
 __pycache__/
-home/.config/nnn/sessions/
-home/.config/nnn/mounts/
-home/.config/nnn/plugins/
+config/nnn/sessions/
+config/nnn/mounts/
+config/nnn/plugins/
