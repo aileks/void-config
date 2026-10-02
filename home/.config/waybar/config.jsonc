@@ -107,16 +107,17 @@
     "format": " {usage}%",
     "interval": 5,
     "tooltip": false,
+    "on-click": "alacritty -e btop"
   },
   "temperature": {
     "hwmon-path-abs": "/sys/devices/pci0000:00/0000:00:18.3/hwmon",
     "input-filename": "temp3_input",
-    "format": "{temperatureC}°C",
+    "format": " {temperatureC}°C",
     "interval": 5,
     "tooltip": false,
   },
   "memory": {
-    "format": " {used:.1f} GB",
+    "format": " {used:.1f}GB",
     "interval": 5,
     "tooltip": false,
   },
@@ -124,6 +125,7 @@
     "exec": "nvidia-smi --query-gpu=utilization.gpu,temperature.gpu --format=csv,noheader,nounits | awk -F ', ' '{printf \"󰢮 %s%% %s°C\\n\", $1, $2}'",
     "interval": 5,
     "tooltip": false,
+    "on-click": "alacritty -e nvtop"
   },
   "network": {
     "format-wifi": "󰖩 {essid}",
