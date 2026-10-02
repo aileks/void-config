@@ -27,4 +27,4 @@ on_transcription = false
 
 [osd]
 enabled = true
-frontend = "native"
+frontend = "gtk4"
