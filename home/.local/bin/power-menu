@@ -5,7 +5,7 @@ set -euo pipefail
 choice=$(printf '%s\n' 'log out' 'suspend' 'reboot' 'shut down' | rofi -dmenu -i -lines 4 -p Power) || exit 0
 case "$choice" in
   'log out') mmsg dispatch quit ;;
-  'suspend') loginctl suspend ;;
+  'suspend') swaylock -f && loginctl suspend ;;
   'reboot') loginctl reboot ;;
   'shut down') loginctl poweroff ;;
 esac

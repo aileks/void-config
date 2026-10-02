@@ -1,0 +1,6 @@
+timeout 570 'notify-send -t 2000 -a swayidle "Locking in 30 seconds"'
+timeout 600 'swaylock -f'
+timeout 900 'mmsg dispatch sleep_monitor,all' resume 'mmsg dispatch wakeup_monitor,all'
+before-sleep 'swaylock -f'
+after-resume 'mmsg dispatch wakeup_monitor,all'
+lock 'swaylock -f'

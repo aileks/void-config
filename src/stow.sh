@@ -7,7 +7,10 @@ install_stow() {
   for target in \
     "$target_home"/.config/gtk-{3,4}.0/{settings.ini,gtk.css} \
     "$target_home"/.config/qt6ct/colors/dustveil.conf; do
-    if [[ -f $target && ! -L $target ]]; then
+    if [[ -L $target && $(readlink -f -- "$target") == "$repo/partial/${target#"$target_home/"}" ]]; then
+      continue
+    fi
+    if [[ -f $target || -L $target ]]; then
       run mv -T -- "$target" "$target.backup.$stamp"
     fi
   done
