@@ -44,9 +44,6 @@ setup_mime() {
     return
   fi
 
-  if [[ -e $target || -L $target ]]; then
-    mv -T -- "$target" "$target.backup.$stamp"
-  fi
   install -m 600 -- "$repo/desktop/xdg/mimeapps.list" "$target"
 }
 
