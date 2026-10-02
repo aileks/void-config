@@ -1,0 +1,21 @@
+color=090909
+font=Iosevka Nerd Font
+font-size=16
+indicator-radius=70
+indicator-thickness=2
+inside-color=1b1917
+inside-clear-color=1b1917
+inside-ver-color=1b1917
+inside-wrong-color=1b1917
+ring-color=898078
+ring-clear-color=aaa19a
+ring-ver-color=aaa19a
+ring-wrong-color=aaa19a
+key-hl-color=f1e6dc
+bs-hl-color=b6ada5
+separator-color=504b47
+line-uses-ring
+text-color=f1e6dc
+text-clear-color=f1e6dc
+text-ver-color=f1e6dc
+text-wrong-color=f1e6dc

@@ -66,17 +66,16 @@ main() {
 
   install_system_config
   install_packages
-  install_xkb
+  configure_desktop_session
   install_emacs
   install_custom_packages
   configure_account
   configure_mdns
   configure_pipewire
-  enable_services
-
   run as_user env DOTFILES_USER_SETUP=1 "$repo/install.sh"
 
   doas -C /etc/doas.conf || fail 'doas rejected /etc/doas.conf.'
+  enable_services
 
   echo 'Installation complete.'
 }

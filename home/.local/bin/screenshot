@@ -18,21 +18,29 @@ mkdir -p "$directory"
 file="$directory/$(date +%Y-%m-%d_%H-%M-%S-%N).png"
 
 case "$mode" in
-  region) args=(-s) ;;
-  window) args=(-i "$(xdotool getactivewindow)") ;;
+  region)
+    geometry=$(slurp) || exit 0
+    args=(-g "$geometry")
+    ;;
+  window)
+    if ! geometry=$(mmsg get focusing-client | jq -er '
+      select(.id != null and .width > 0 and .height > 0) |
+      "\(.x),\(.y) \(.width)x\(.height)"'); then
+      notify-send -a Screenshot 'No focused window to capture' || true
+      exit 1
+    fi
+    args=(-g "$geometry")
+    ;;
   full) args=() ;;
 esac
 
-if ! maim "${args[@]}" "$file"; then
+if ! grim "${args[@]}" "$file"; then
   rm -f -- "$file"
-  if [[ $mode == region ]]; then
-    exit 0
-  fi
   notify-send -u critical -a Screenshot 'Screenshot failed' 'Could not capture the screen.' || true
   exit 1
 fi
 
-if ! xclip -selection clipboard -t image/png <"$file"; then
+if ! wl-copy --type image/png <"$file"; then
   notify-send -u critical -a Screenshot 'Screenshot saved' 'Could not copy the screenshot to the clipboard.' || true
   exit 1
 fi

@@ -1,15 +1,16 @@
 * {
-    background: #090909;
+    background: rgba(9, 9, 9, 95%);
     foreground: #f1e6dc;
     border-color: #898078;
     selected-background: #898078;
     selected-foreground: #090909;
-    background-color: @background;
+    background-color: transparent;
     text-color: @foreground;
     border-radius: 0px;
 }
 
 window {
+    background-color: @background;
     location: center;
     anchor: center;
     width: 600px;

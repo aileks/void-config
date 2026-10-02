@@ -72,7 +72,6 @@ setup_user_phase() {
 
   install_stow
   install_user_tools
-  run xmonad --recompile
   install_doom
   apply_gsettings
 

@@ -1,7 +1,11 @@
 install_emacs() {
-  if [[ -x /usr/local/bin/emacs ]] && ldd /usr/local/bin/emacs 2>/dev/null | grep -q libgccjit; then
-    printf 'emacs already built with native compilation\n'
-    return
+  local features
+  if [[ -x /usr/local/bin/emacs ]]; then
+    features=$(/usr/local/bin/emacs --batch -Q --eval '(princ system-configuration-features)')
+    if [[ " $features " == *' PGTK '* && " $features " == *' NATIVE_COMP '* ]]; then
+      printf 'emacs already built with PGTK and native compilation\n'
+      return
+    fi
   fi
 
   local emacs_version=30.2
@@ -11,7 +15,8 @@ install_emacs() {
   fi
 
   run as_user bash -c "cd '$source_dir' && ./autogen.sh"
-  run as_user bash -c "cd '$source_dir' && ./configure --prefix=/usr/local --with-x-toolkit=gtk3 --with-cairo --with-harfbuzz --with-xft --with-native-compilation --with-json --with-tree-sitter --with-modules --with-rsvg --with-webp --with-gif --with-jpeg --with-png --with-xinput2"
+  run as_user bash -c "cd '$source_dir' && ./configure --prefix=/usr/local --with-pgtk --without-x --with-cairo --with-harfbuzz --with-native-compilation --with-json --with-tree-sitter --with-modules --with-rsvg --with-webp --with-gif --with-jpeg --with-png"
+  run as_user make -C "$source_dir" clean
   run as_user make -C "$source_dir" -j"$(nproc)"
   run make -C "$source_dir" install
 }

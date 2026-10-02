@@ -11,10 +11,17 @@ install_system_config() {
   done < <(find "$repo/etc" -type f -print0 | sort -z)
 }
 
-install_xkb() {
-  local xkb_dir
-  xkb_dir=$(readlink -e /usr/share/X11/xkb)
-  install_system_file "$repo/desktop/xkb/symbols/custom" "$xkb_dir/symbols/custom"
+configure_desktop_session() {
+  local desktop_file=/usr/share/wayland-sessions/mango.desktop
+
+  printf 'PATH=%s/.config/emacs/bin:%s/.local/bin:/usr/local/bin:/usr/bin:/bin\n' \
+    "$target_home" "$target_home" >"$work/lidm.env"
+  install_system_file "$work/lidm.env" /etc/lidm.env
+
+  [[ -f $desktop_file ]] || fail 'MangoWC session file is missing.'
+  sed -e 's/^Name=.*/Name=MangoWC/' -e 's/^Exec=.*/Exec=dbus-run-session -- mango/' \
+    "$desktop_file" >"$work/mango.desktop"
+  install_system_file "$work/mango.desktop" "$desktop_file"
 }
 
 configure_account() {
@@ -35,14 +42,6 @@ configure_account() {
 
   if [[ " $(id -nG "$target_user") " != *' i2c '* ]]; then
     run usermod -aG i2c "$target_user"
-  fi
-
-  if ! getent group uinput >/dev/null; then
-    run groupadd --system uinput
-  fi
-
-  if [[ " $(id -nG "$target_user") " != *' uinput '* ]]; then
-    run usermod -aG uinput "$target_user"
   fi
 }
 
@@ -83,7 +82,7 @@ configure_pipewire() {
 
 enable_services() {
   local service
-  local services=(dbus elogind NetworkManager cronie bluetoothd cupsd avahi-daemon)
+  local services=(dbus elogind NetworkManager cronie bluetoothd cupsd avahi-daemon lidm)
 
   for service in "${services[@]}"; do
     run ln -sfn "/etc/sv/$service" "/var/service/$service"

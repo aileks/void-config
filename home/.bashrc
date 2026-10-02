@@ -50,7 +50,7 @@ alias xqo='xbps-query -o'
 hf() {
   local selection
   selection=$(history | fzf --tac | sed 's/^[[:space:]]*[0-9]*[[:space:]]*//') || return
-  printf '%s' "$selection" | xclip -selection clipboard
+  printf '%s' "$selection" | wl-copy --type text/plain
 }
 
 # Shell Options

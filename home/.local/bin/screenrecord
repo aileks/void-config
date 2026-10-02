@@ -141,7 +141,7 @@ case "$mode" in
     args=(-w screen)
     ;;
   region)
-    selection=$(slop -f '%x %y %w %h' </dev/null) || exit 0
+    selection=$(slurp -f '%x %y %w %h' </dev/null) || exit 0
     if [[ ! $selection =~ ^(-?[0-9]{1,5})\ (-?[0-9]{1,5})\ ([1-9][0-9]{0,4})\ ([1-9][0-9]{0,4})$ ]]; then
       exit 1
     fi

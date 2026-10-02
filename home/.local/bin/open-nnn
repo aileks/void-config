@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-
-. "${XDG_CONFIG_HOME:-$HOME/.config}/nnn/env"
-
-exec nnn

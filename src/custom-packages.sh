@@ -3,7 +3,7 @@ custom_packages=(
   onlyoffice-desktopeditors
   bitwarden-desktop
   voxtype
-  xmonad
+  voxtype-osd-native
 )
 
 install_custom_packages() {

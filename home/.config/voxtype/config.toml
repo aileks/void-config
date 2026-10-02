@@ -15,8 +15,7 @@ on_demand_loading = true
 
 [output]
 mode = "type"
-driver_order = ["dotool", "xclip"]
-dotool_xkb_layout = "us"
+driver_order = ["wtype"]
 fallback_to_clipboard = true
 pre_type_delay_ms = 250
 auto_submit = false
@@ -27,5 +26,5 @@ on_recording_stop = false
 on_transcription = false
 
 [osd]
-# voxtype-session starts the X11 overlay instead of the bundled Wayland OSD.
-enabled = false
+enabled = true
+frontend = "native"

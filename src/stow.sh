@@ -3,11 +3,6 @@ install_stow() {
 
   command -v stow >/dev/null 2>&1 || fail 'stow is not installed (xbps-install stow)'
 
-  if [[ -f $target_home/.local/bin/bemoji && ! -L $target_home/.local/bin/bemoji ]]; then
-    run mkdir -p -- "$target_home/.local/libexec"
-    run mv -b -- "$target_home/.local/bin/bemoji" "$target_home/.local/libexec/bemoji"
-  fi
-
   run mkdir -p -- "$target_home/.local/bin" "$data_home/applications"
   for target in \
     "$target_home"/.config/gtk-{3,4}.0/{settings.ini,gtk.css} \

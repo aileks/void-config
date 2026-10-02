@@ -1,0 +1,22 @@
+# Template file for 'voxtype-osd-native'
+pkgname=voxtype-osd-native
+version=1.0.1
+revision=1
+archs="x86_64"
+create_wrksrc=yes
+depends="libgcc libstdc++ wayland libxkbcommon vulkan-loader"
+short_desc="Native Wayland on-screen display for Voxtype"
+maintainer="Kieran Pedrick <kieran@aileks.dev>"
+license="MIT"
+homepage="https://voxtype.io"
+distfiles="https://github.com/peteonrails/voxtype/releases/download/v${version}/voxtype-${version}-linux-x86_64-osd
+ https://raw.githubusercontent.com/peteonrails/voxtype/v${version}/LICENSE"
+checksum="7250027b1672507a6d584f795731c87e1d3b5c1de891438bd55e34b136a2d5cc
+ 31123c45b4ff9cb5fd9e01083350fea6ccaf14969013fd48e4c95fdf89e6eb4b"
+skip_extraction="voxtype-${version}-linux-x86_64-osd LICENSE"
+
+do_install() {
+  vbin "${XBPS_SRCDISTDIR}/${pkgname}-${version}/voxtype-${version}-linux-x86_64-osd" voxtype-osd-native
+  ln -s voxtype-osd-native "${DESTDIR}/usr/bin/voxtype-osd"
+  vlicense "${XBPS_SRCDISTDIR}/${pkgname}-${version}/LICENSE"
+}
