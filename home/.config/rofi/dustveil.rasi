@@ -42,13 +42,8 @@ listview {
 }
 
 element {
-    children: [ element-icon, element-text ];
-    spacing: 8px;
+    children: [ element-text ];
     padding: 8px;
-}
-
-element-icon {
-    size: 24px;
 }
 
 element-text {
