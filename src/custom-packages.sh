@@ -1,18 +1,13 @@
-custom_packages=(
-  localsend
-  onlyoffice-desktopeditors
-  bitwarden-desktop
-  voxtype
-  voxtype-osd-native
-)
-
 install_custom_packages() {
   local void_packages=$target_home/void-packages
   local repository=$void_packages/hostdir/binpkgs
   local package template
-  local -a missing=()
+  local -a custom_packages=() missing=()
 
-  for package in "${custom_packages[@]}"; do
+  for template in "$repo"/templates/*/; do
+    template=${template%/}
+    package=${template##*/}
+    custom_packages+=("$package")
     xbps-query "$package" >/dev/null 2>&1 || missing+=("$package")
   done
 
@@ -21,13 +16,9 @@ install_custom_packages() {
       run as_user git clone --depth 1 https://github.com/void-linux/void-packages.git "$void_packages"
     fi
 
-    for template in "$repo"/templates/*/; do
-      template=${template%/}
-      run as_user rsync -a "$template/" "$void_packages/srcpkgs/${template##*/}/"
-    done
-
     run as_user "$void_packages/xbps-src" binary-bootstrap
     for package in "${missing[@]}"; do
+      run as_user rsync -a "$repo/templates/$package/" "$void_packages/srcpkgs/$package/"
       run as_user "$void_packages/xbps-src" pkg "$package"
     done
   fi

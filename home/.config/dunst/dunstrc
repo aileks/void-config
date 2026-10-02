@@ -18,25 +18,15 @@ horizontal_padding = 12
 text_icon_padding = 10
 corner_radius = 0
 format = "<b>%s</b>\n%b"
+background = "#1b1917"
+foreground = "#f1e6dc"
+highlight = "#b6ada5"
 timeout = 5
 
 [urgency_low]
-background = "#1b1917"
-foreground = "#f1e6dc"
-frame_color = "#898078"
-highlight = "#b6ada5"
 timeout = 4
 
-[urgency_normal]
-background = "#1b1917"
-foreground = "#f1e6dc"
-frame_color = "#898078"
-highlight = "#b6ada5"
-timeout = 5
-
 [urgency_critical]
-background = "#1b1917"
-foreground = "#f1e6dc"
 frame_color = "#aaa19a"
 highlight = "#aaa19a"
 timeout = 0

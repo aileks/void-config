@@ -2,7 +2,7 @@ install_user_tools() {
   local work=$work/user-tools
   local name
 
-  mkdir -p "$work" "$HOME/.local/bin" "$HOME/.local/libexec" "$data_home"
+  mkdir -p "$work"
 
   for name in Iosevka IosevkaTerm; do
     if [[ -z $(fc-list ":family=$name Nerd Font" file) ]]; then

@@ -91,10 +91,11 @@ flock -n 9 || exit 1
 
 mode=${1:-output}
 audio=${2:-none}
+usage='usage: screenrecord [region|output] [none|mic|desktop+mic] | stop | status | menu'
 case "$mode" in
   region | output | stop | status) ;;
   *)
-    printf 'usage: screenrecord [region|output] [none|mic|desktop+mic] | stop | status | menu\n' >&2
+    printf '%s\n' "$usage" >&2
     exit 2
     ;;
 esac
@@ -103,12 +104,12 @@ if [[ $mode == region || $mode == output ]]; then
   case "$audio" in
     none | mic | desktop+mic) ;;
     *)
-      printf 'usage: screenrecord [region|output] [none|mic|desktop+mic] | stop | status | menu\n' >&2
+      printf '%s\n' "$usage" >&2
       exit 2
       ;;
   esac
 elif (($# > 1)); then
-  printf 'usage: screenrecord [region|output] [none|mic|desktop+mic] | stop | status\n' >&2
+  printf '%s\n' "$usage" >&2
   exit 2
 fi
 
@@ -148,29 +149,18 @@ case "$mode" in
     read -r x y width height <<<"$selection"
     args=(-w region -region "${width}x${height}+${x}+${y}")
     ;;
-  *)
-    exit 2
-    ;;
 esac
 
 case "$audio" in
   none) audio_args=() ;;
   mic) audio_args=(-a default_input) ;;
   desktop+mic) audio_args=(-a 'default_output|default_input') ;;
-  *) exit 2 ;;
 esac
 
 gpu-screen-recorder "${args[@]}" -f 60 "${audio_args[@]}" -c mp4 -o "$file" 9>&- &
 pid=$!
 sleep 0.2
-if ! kill -0 "$pid" 2>/dev/null; then
-  wait "$pid" || status=$?
-  notify-send -u critical -a Recording 'Recording failed to start' \
-    "gpu-screen-recorder exited with status ${status:-0}."
-  exit 1
-fi
-
-if ! start_time=$(awk '{ print $22 }' "/proc/$pid/stat" 2>/dev/null); then
+if ! kill -0 "$pid" 2>/dev/null || ! start_time=$(awk '{ print $22 }' "/proc/$pid/stat" 2>/dev/null); then
   wait "$pid" || status=$?
   notify-send -u critical -a Recording 'Recording failed to start' \
     "gpu-screen-recorder exited with status ${status:-0}."

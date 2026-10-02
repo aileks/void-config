@@ -1,12 +1,11 @@
 # Template file for 'bitwarden-desktop'
 pkgname=bitwarden-desktop
 version=2026.9.0
-revision=1
+revision=2
 archs="x86_64"
 create_wrksrc=yes
 nopie=yes
 nostrip=yes
-hostmakedepends="binutils tar xz"
 depends="gtk+3 nss"
 short_desc="Secure and free password manager for all of your devices"
 maintainer="Kieran Pedrick <kieran@aileks.dev>"
@@ -15,11 +14,6 @@ homepage="https://bitwarden.com"
 distfiles="https://github.com/bitwarden/clients/releases/download/desktop-v${version}/Bitwarden-${version}-amd64.deb"
 checksum=51066f8fbaf4546626a2e77a9c0d3abfeef7a13685aca046cb30e07ebf3cf979
 
-do_extract() {
-  :
-}
-
 do_install() {
-  ar p "${XBPS_SRCDISTDIR}/${pkgname}-${version}/Bitwarden-${version}-amd64.deb" data.tar.xz \
-    | tar -xJf - -C "${DESTDIR}"
+  vcopy '*' .
 }

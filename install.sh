@@ -10,7 +10,6 @@ source "$repo/src/packages.sh"
 source "$repo/src/custom-packages.sh"
 source "$repo/src/system-config.sh"
 source "$repo/src/emacs.sh"
-source "$repo/src/stow.sh"
 source "$repo/src/user-tools.sh"
 source "$repo/src/user-settings.sh"
 
@@ -31,26 +30,25 @@ preflight() {
   if [[ -e $config_home/emacs || -L $config_home/emacs ]]; then
     [[ -x $config_home/emacs/bin/doom && -d $config_home/emacs/.git ]] || fail "Incomplete or unrelated Emacs installation at $config_home/emacs; preserve it elsewhere before rerunning."
   fi
-
-  detect_gpu
-  case $gpu_vendor in
-    nvidia) printf 'GPU: NVIDIA, installing the proprietary driver\n' ;;
-    amd) printf 'GPU: AMD, using Mesa\n' ;;
-    *) printf 'GPU: no NVIDIA or AMD graphics controller, skipping vendor drivers\n' ;;
-  esac
 }
 
 main() {
   (($# == 0)) || fail 'Usage: ./install.sh'
 
   if [[ ${DOTFILES_USER_SETUP:-} != 1 ]] && ((EUID != 0)); then
-    command -v doas >/dev/null 2>&1 || fail 'Not running as root and doas is not installed.'
-    exec doas -- "$repo/install.sh"
+    if command -v doas >/dev/null 2>&1; then
+      exec doas -- "$repo/install.sh"
+    elif command -v sudo >/dev/null 2>&1; then
+      exec sudo -- "$repo/install.sh"
+    fi
+    # shellcheck disable=SC2016
+    exec su -s /bin/bash -c 'exec "$1"' root bash "$repo/install.sh"
   fi
 
   select_user
   stamp=$(date -u +%Y%m%dT%H%M%SZ)-$$
   work=$(mktemp -d -t dotfiles.XXXXXXXX)
+  trap 'rm -rf -- "$work"' EXIT
   trap 'printf "Installation failed at line %s. Fix the error above and rerun the same command.\n" "$LINENO" >&2' ERR
 
   if [[ ${DOTFILES_USER_SETUP:-} == 1 ]]; then

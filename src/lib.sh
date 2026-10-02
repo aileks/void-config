@@ -53,25 +53,6 @@ check_system_target() {
   [[ ! -d $target ]] || fail "Expected a file at $target."
 }
 
-detect_gpu() {
-  local device class vendor
-
-  gpu_vendor=
-  shopt -s nullglob
-  for device in /sys/bus/pci/devices/*; do
-    read -r class <"$device/class" 2>/dev/null || continue
-    [[ $class == 0x0300* || $class == 0x0302* ]] || continue
-    read -r vendor <"$device/vendor" 2>/dev/null || continue
-    case $vendor in
-      0x10de) gpu_vendor=nvidia ;;
-      0x1002) gpu_vendor=amd ;;
-      *) continue ;;
-    esac
-    break
-  done
-  shopt -u nullglob
-}
-
 install_system_file() {
   local source=$1 target=$2 mode=${3:-644}
 
@@ -91,17 +72,4 @@ install_system_file() {
   fi
 
   run install -D -o root -g root -m "$mode" -- "$source" "$target"
-}
-
-install_missing() {
-  local package
-  local -a missing=()
-
-  for package in "$@"; do
-    xbps-query "$package" >/dev/null 2>&1 || missing+=("$package")
-  done
-
-  if ((${#missing[@]} > 0)); then
-    run xbps-install -Sy "${missing[@]}"
-  fi
 }

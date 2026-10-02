@@ -1,5 +1,23 @@
+install_stow() {
+  local target
+
+  run mkdir -p -- "$target_home/.local/bin" "$data_home/applications"
+  for target in \
+    "$target_home"/.config/gtk-{3,4}.0/{settings.ini,gtk.css} \
+    "$target_home"/.config/qt6ct/colors/dustveil.conf; do
+    if [[ -L $target && $(readlink -f -- "$target") == "$repo/partial/${target#"$target_home/"}" ]]; then
+      continue
+    fi
+    if [[ -f $target || -L $target ]]; then
+      run mv -T -- "$target" "$target.backup.$stamp"
+    fi
+  done
+  run stow --dir="$repo" --target="$target_home" --no-folding partial
+  run stow --dir="$repo" --target="$target_home" home
+}
+
 install_doom() {
-  local emacs_dir=${XDG_CONFIG_HOME:-$HOME/.config}/emacs
+  local emacs_dir=$config_home/emacs
 
   if [[ ! -d $emacs_dir ]]; then
     git clone --depth 1 https://github.com/doomemacs/doomemacs.git "$work/doom-emacs"
@@ -7,11 +25,6 @@ install_doom() {
     "$emacs_dir/bin/doom" install
     return
   fi
-
-  [[ -f ${XDG_CONFIG_HOME:-$HOME/.config}/doom/init.el ]] || {
-    echo 'Doom config has no init.el yet; skipping sync.' >&2
-    return 0
-  }
 
   "$emacs_dir/bin/doom" sync
 }
@@ -62,7 +75,6 @@ install_crontab() {
 }
 
 setup_user_phase() {
-  export PATH="$target_home/.local/bin:$PATH"
   export NPM_CONFIG_PREFIX="$target_home/.local"
   export XDG_RUNTIME_DIR="$work/runtime"
   install -d -m 700 "$XDG_RUNTIME_DIR"

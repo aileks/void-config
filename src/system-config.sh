@@ -63,17 +63,16 @@ configure_pipewire() {
   local source target
 
   run install -d -m 755 /etc/pipewire/pipewire.conf.d /etc/alsa/conf.d
-  for source in /usr/share/examples/wireplumber/10-wireplumber.conf /usr/share/examples/pipewire/20-pipewire-pulse.conf; do
+  for source in \
+    /usr/share/examples/wireplumber/10-wireplumber.conf \
+    /usr/share/examples/pipewire/20-pipewire-pulse.conf \
+    /usr/share/alsa/alsa.conf.d/50-pipewire.conf \
+    /usr/share/alsa/alsa.conf.d/99-pipewire-default.conf; do
     [[ -f $source ]] || fail "Missing PipeWire example config: $source"
-    target=/etc/pipewire/pipewire.conf.d/${source##*/}
-    if [[ ! -L $target ]]; then
-      run ln -s "$source" "$target"
-    fi
-  done
-
-  for source in /usr/share/alsa/alsa.conf.d/50-pipewire.conf /usr/share/alsa/alsa.conf.d/99-pipewire-default.conf; do
-    [[ -f $source ]] || fail "Missing PipeWire ALSA config: $source"
     target=/etc/alsa/conf.d/${source##*/}
+    if [[ $source == /usr/share/examples/* ]]; then
+      target=/etc/pipewire/pipewire.conf.d/${source##*/}
+    fi
     if [[ ! -L $target ]]; then
       run ln -s "$source" "$target"
     fi

@@ -1,25 +1,156 @@
-packages=(
-  linux-firmware NetworkManager network-manager-applet dnsmasq dbus-elogind elogind polkit-elogind opendoas
-  avahi nss-mdns cups bluez blueman gst-plugins-base1 gst-plugins-good1 gst-plugins-bad1 gst-plugins-ugly1 xtools gst-libav 7zip tree
-  bat psmisc fd fzf git jq shfmt ripgrep stow trash-cli unzip gsettings-desktop-schemas wget rsync zip zoxide btop
-  fastfetch lidm mangowc Waybar swaybg swayidle swaylock grim slurp wl-clipboard xorg-server-xwayland xkeyboard-config
-  alsa-pipewire pipewire libspa-bluetooth wireplumber-elogind pulseaudio-utils alacritty alacritty-terminfo rofi
-  fontconfig fontconfig-devel nnn zathura zathura-pdf-mupdf mpv mpv-mpris gvfs pcmanfm
-  dunst libnotify playerctl wiremix qalculate-gtk xarchiver ncdu2 imv tumbler xdg-utils xdg-user-dirs polkit-gnome ffmpeg6
-  xdg-desktop-portal xdg-desktop-portal-gtk xdg-desktop-portal-wlr ffmpegthumbnailer alsa-utils ddcutil libva-utils cronie tesseract-ocr tesseract-ocr-eng keyutils hunspell
-  hunspell-en pinentry dconf gnome-keyring qt6ct qt6-wayland papirus-icon-theme adwaita-icon-theme adwaita-fonts noto-fonts-ttf
-  openrgb noto-fonts-cjk noto-fonts-emoji Signal-Desktop freetype-devel pkg-config cmake libxcrypt-devel clang
-  make bubblewrap ImageMagick libvterm tree-sitter-cli libgccjit-devel jansson-devel tree-sitter-devel gtk+3-devel cairo-devel
-  harfbuzz-devel giflib-devel libjpeg-turbo-devel libpng-devel librsvg-devel libwebp-devel libxml2-devel gnutls-devel texinfo autoconf
-  automake ncurses-devel gpu-screen-recorder doasedit firefox wtype uv nodejs
-)
-
 install_packages() {
-  install_missing void-repo-nonfree
+  local device class vendor
+  local -a packages=(
+    7zip
+    adwaita-fonts
+    adwaita-icon-theme
+    alacritty
+    alacritty-terminfo
+    alsa-pipewire
+    alsa-utils
+    avahi
+    base-devel
+    bash-completion
+    bat
+    blueman
+    bluez
+    btop
+    bubblewrap
+    cairo-devel
+    clang
+    cmake
+    cronie
+    cups
+    curl
+    dbus-elogind
+    dconf
+    ddcutil
+    dnsmasq
+    doasedit
+    dunst
+    elogind
+    fastfetch
+    fd
+    ffmpeg6
+    ffmpegthumbnailer
+    firefox
+    fontconfig
+    fontconfig-devel
+    freetype-devel
+    fzf
+    giflib-devel
+    git
+    gnome-keyring
+    gnutls-devel
+    gpu-screen-recorder
+    grim
+    gsettings-desktop-schemas
+    gst-libav
+    gst-plugins-bad1
+    gst-plugins-base1
+    gst-plugins-good1
+    gst-plugins-ugly1
+    gtk+3-devel
+    gvfs
+    harfbuzz-devel
+    hunspell
+    hunspell-en
+    ImageMagick
+    imv
+    jansson-devel
+    jq
+    keyutils
+    libgccjit-devel
+    libjpeg-turbo-devel
+    libnotify
+    libpng-devel
+    librsvg-devel
+    libspa-bluetooth
+    libva-utils
+    libvterm
+    libwebp-devel
+    libxcrypt-devel
+    libxml2-devel
+    lidm
+    linux-firmware
+    mangowc
+    mpv
+    mpv-mpris
+    ncdu2
+    ncurses-devel
+    network-manager-applet
+    NetworkManager
+    nnn
+    nodejs
+    noto-fonts-cjk
+    noto-fonts-emoji
+    noto-fonts-ttf
+    nss-mdns
+    nvtop
+    opendoas
+    openrgb
+    papirus-icon-theme
+    pcmanfm
+    pinentry
+    pipewire
+    playerctl
+    polkit-elogind
+    polkit-gnome
+    psmisc
+    pulseaudio-utils
+    qalculate-gtk
+    qt6-wayland
+    qt6ct
+    ripgrep
+    rofi
+    rsync
+    shfmt
+    Signal-Desktop
+    slurp
+    stow
+    swaybg
+    swayidle
+    swaylock
+    tesseract-ocr
+    tesseract-ocr-eng
+    trash-cli
+    tree
+    tree-sitter-cli
+    tree-sitter-devel
+    tumbler
+    uv
+    Waybar
+    wget
+    wiremix
+    wireplumber-elogind
+    wl-clipboard
+    wtype
+    xarchiver
+    xdg-desktop-portal
+    xdg-desktop-portal-gtk
+    xdg-desktop-portal-wlr
+    xdg-user-dirs
+    xdg-utils
+    xkeyboard-config
+    xorg-server-xwayland
+    xtools
+    zathura
+    zathura-pdf-mupdf
+    zip
+    zoxide
+  )
 
-  if [[ $gpu_vendor == nvidia ]]; then
-    packages+=(nvidia nvidia-vaapi-driver)
-  fi
+  run xbps-install -Sy void-repo-nonfree
 
-  install_missing "${packages[@]}"
+  for device in /sys/bus/pci/devices/*; do
+    read -r class <"$device/class" 2>/dev/null || continue
+    [[ $class == 0x0300* || $class == 0x0302* ]] || continue
+    read -r vendor <"$device/vendor" 2>/dev/null || continue
+    if [[ $vendor == 0x10de ]]; then
+      packages+=(nvidia nvidia-vaapi-driver)
+      break
+    fi
+  done
+
+  run xbps-install -Sy "${packages[@]}"
 }

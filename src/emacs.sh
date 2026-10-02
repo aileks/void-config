@@ -14,8 +14,13 @@ install_emacs() {
     run as_user git clone --depth 1 -b "emacs-$emacs_version" https://github.com/emacs-mirror/emacs.git "$source_dir"
   fi
 
-  run as_user bash -c "cd '$source_dir' && ./autogen.sh"
-  run as_user bash -c "cd '$source_dir' && ./configure --prefix=/usr/local --with-pgtk --without-x --with-cairo --with-harfbuzz --with-native-compilation --with-json --with-tree-sitter --with-modules --with-rsvg --with-webp --with-gif --with-jpeg --with-png"
+  run as_user bash -e -c '
+    cd "$1"
+    ./autogen.sh
+    ./configure --prefix=/usr/local --with-pgtk --without-x --with-cairo \
+      --with-harfbuzz --with-native-compilation --with-json --with-tree-sitter \
+      --with-modules --with-rsvg --with-webp --with-gif --with-jpeg --with-png
+  ' bash "$source_dir"
   run as_user make -C "$source_dir" clean
   run as_user make -C "$source_dir" -j"$(nproc)"
   run make -C "$source_dir" install
