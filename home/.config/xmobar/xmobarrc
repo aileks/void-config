@@ -1,7 +1,7 @@
 Config
   { font = "Iosevka Nerd Font Propo Medium 11"
   , bgColor = "#1b1917"
-  , fgColor = "#f3f3f3"
+  , fgColor = "#f1e6dc"
   , alpha = 255
   , position = TopH 28
   , border = NoBorder
@@ -22,5 +22,5 @@ Config
       ]
   , sepChar = "%"
   , alignSep = "}{"
-  , template = " %UnsafeXMonadLog% }{<fc=#9e958d>%dnd%</fc> <fc=#514942>│</fc> <fc=#9e958d>%volume%</fc> <fc=#514942>│</fc> <fc=#9e958d>%cpu%</fc> <fc=#514942>│</fc> <fc=#9e958d>%memory%</fc> <fc=#514942>│</fc> <fc=#9e958d>%gpu%</fc> <fc=#514942>│</fc> <fc=#9e958d>%network%</fc> <fc=#514942>│</fc> <fc=#9e958d>%clock%</fc><hspace=86/>"
+  , template = " %UnsafeXMonadLog% }{<fc=#b6ada5>%dnd%</fc> <fc=#504b47>│</fc> <fc=#b6ada5>%volume%</fc> <fc=#504b47>│</fc> <fc=#b6ada5>%cpu%</fc> <fc=#504b47>│</fc> <fc=#b6ada5>%memory%</fc> <fc=#504b47>│</fc> <fc=#b6ada5>%gpu%</fc> <fc=#504b47>│</fc> <fc=#b6ada5>%network%</fc> <fc=#504b47>│</fc> <fc=#b6ada5>%clock%</fc><hspace=92/>"
   }

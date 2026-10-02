@@ -16,29 +16,30 @@ cd ~/.dotfiles
 | --------------------------- | --------- |
 | Background                  | `#090909` |
 | Surface                     | `#1b1917` |
-| Foreground                  | `#f3f3f3` |
-| Accent                      | `#978e86` |
-| Comments, italic            | `#8a8179` |
-| Strings, numbers, constants | `#aaa198` |
-| Variables, properties       | `#c1b8af` |
-| Keywords, types, bold       | `#e0d7ce` |
-| Functions, bold             | `#fcf2e9` |
-| Control borders             | `#7b726b` |
-| Muted UI text               | `#877e76` |
-| Hover                       | `#26221f` |
-| Progress fill               | `#736a63` |
-| Borders                     | `#514942` |
-| Shadow                      | `#463e37` |
+| Foreground                  | `#f1e6dc` |
+| Accent                      | `#aaa19a` |
+| Comments, italic            | `#665f5a` |
+| Operators, literals         | `#aaa19a` |
+| Variables, properties       | `#b6ada5` |
+| Keywords, types, bold       | `#d8cec4` |
+| Functions, bold             | `#f1e6dc` |
+| Control borders             | `#898078` |
+| Muted UI text               | `#898078` |
+| GTK / Rofi selection        | `#898078` |
+| Hover border                | `#b6ada5` |
+| Progress fill               | `#635d57` |
+| Decorative separators       | `#504b47` |
+| Shadow                      | `#504b47` |
 
 ### ANSI
 
 | ANSI definition | Normal    | Bright    |
 | --------------- | --------- | --------- |
-| Black           | `#8a8179` | `#8a8179` |
-| Red             | `#8c837b` | `#8c837b` |
-| Green           | `#978e86` | `#978e86` |
-| Yellow          | `#aaa198` | `#aaa198` |
-| Blue            | `#8b827a` | `#8b827a` |
-| Magenta         | `#8e857d` | `#8e857d` |
-| Cyan            | `#9e958d` | `#9e958d` |
-| White           | `#e0d7ce` | `#fcf2e9` |
+| Black           | `#898078` | `#a9a098` |
+| Red             | `#948b83` | `#b4aba3` |
+| Green           | `#a0978f` | `#c0b7af` |
+| Yellow          | `#aba29a` | `#cbc2ba` |
+| Blue            | `#b6ada5` | `#d6cdc5` |
+| Magenta         | `#c2b9b1` | `#e2d9d1` |
+| Cyan            | `#cdc4bc` | `#ede4dc` |
+| White           | `#e0d7ce` | `#fff6ed` |

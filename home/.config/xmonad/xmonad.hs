@@ -37,8 +37,8 @@ main = xmonad
     { terminal = "alacritty"
     , modMask = mod4Mask
     , borderWidth = 2
-    , normalBorderColor = "#514942"
-    , focusedBorderColor = "#978e86"
+    , normalBorderColor = "#898078"
+    , focusedBorderColor = "#aaa19a"
     , workspaces = map show [1 .. 7 :: Int]
     , layoutHook = desktopLayouts
     , manageHook = desktopRules <+> manageHook def
@@ -46,6 +46,7 @@ main = xmonad
     , startupHook = initializeDictation
         >> spawn "xsetroot -xcf /usr/share/icons/Adwaita/cursors/left_ptr 24"
         >> spawnOnce "bash \"$HOME/.config/xmonad/autostart.sh\""
+        >> spawnOnce "trayer --edge top --align right --widthtype request --heighttype pixel --height 18 --padding 2 --iconspacing 2 --transparent true --alpha 0 --SetDockType true --SetPartialStrut false --distance 4 --distancefrom top --tint 0x1b1917"
     , keys = \config -> mkKeymap config desktopKeys
     , mouseBindings = const $ Map.fromList
         [ ((mod4Mask, button1), \window -> focus window >> mouseMoveWindow window)
@@ -78,20 +79,20 @@ desktopRules = composeAll
     ]]
 
 desktopBar :: StatusBarConfig
-desktopBar = statusBarProp "xmobar \"$HOME/.config/xmobar/xmobarrc\"" (clickablePP desktopPP)
-  <> statusBarGeneric
-    "trayer --edge top --align right --widthtype request --heighttype pixel --height 20 --padding 2 --iconspacing 2 --transparent true --alpha 0 --SetDockType true --SetPartialStrut false --distance 4 --distancefrom top --tint 0x1b1917"
-    (pure ())
+desktopBar =
+    statusBarProp
+        "xmobar \"$HOME/.config/xmobar/xmobarrc\""
+        (clickablePP desktopPP)
 
 desktopPP :: PP
 desktopPP = def
-  { ppCurrent = xmobarColor "#090909" "#f3f3f3" . pad
-  , ppVisible = xmobarColor "#f3f3f3" "" . pad
-  , ppHidden = xmobarColor "#f3f3f3" "" . pad
-  , ppHiddenNoWindows = xmobarColor "#8e857d" "" . pad
-  , ppUrgent = xmobarColor "#aaa198" "" . pad
-  , ppLayout = xmobarColor "#978e86" ""
-  , ppTitle = xmobarColor "#f3f3f3" "" . shorten 60
+  { ppCurrent = xmobarColor "#090909" "#f1e6dc" . pad
+  , ppVisible = xmobarColor "#f1e6dc" "" . pad
+  , ppHidden = xmobarColor "#f1e6dc" "" . pad
+  , ppHiddenNoWindows = xmobarColor "#898078" "" . pad
+  , ppUrgent = xmobarColor "#aaa19a" "" . pad
+  , ppLayout = xmobarColor "#aaa19a" ""
+  , ppTitle = xmobarColor "#f1e6dc" "" . shorten 60
   , ppTitleSanitize = xmobarStrip
   , ppSep = "  "
   , ppWsSep = ""

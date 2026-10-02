@@ -6,7 +6,7 @@ height = (0, 120)
 origin = top-right
 offset = (3, 28)
 frame_width = 2
-frame_color = "#514942"
+frame_color = "#898078"
 separator_color = frame
 font = Iosevka Nerd Font 12
 icon_position = left
@@ -22,23 +22,23 @@ timeout = 5
 
 [urgency_low]
 background = "#1b1917"
-foreground = "#f3f3f3"
-frame_color = "#514942"
-highlight = "#9e958d"
+foreground = "#f1e6dc"
+frame_color = "#898078"
+highlight = "#b6ada5"
 timeout = 4
 
 [urgency_normal]
 background = "#1b1917"
-foreground = "#f3f3f3"
-frame_color = "#514942"
-highlight = "#9e958d"
+foreground = "#f1e6dc"
+frame_color = "#898078"
+highlight = "#b6ada5"
 timeout = 5
 
 [urgency_critical]
 background = "#1b1917"
-foreground = "#f3f3f3"
-frame_color = "#aaa198"
-highlight = "#aaa198"
+foreground = "#f1e6dc"
+frame_color = "#aaa19a"
+highlight = "#aaa19a"
 timeout = 0
 
 [volume]

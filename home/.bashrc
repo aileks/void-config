@@ -149,20 +149,20 @@ fi
 
 # fzf settings
 export FZF_DEFAULT_OPTS="
-  --color=fg:#f3f3f3
+  --color=fg:#f1e6dc
   --color=fg+:#090909
   --color=bg:#090909
-  --color=bg+:#f3f3f3
-  --color=hl:#978e86
+  --color=bg+:#f1e6dc
+  --color=hl:#aaa19a
   --color=hl+:#090909
-  --color=info:#877e76
-  --color=marker:#978e86
-  --color=prompt:#978e86
-  --color=spinner:#aaa198
-  --color=pointer:#978e86
-  --color=header:#f3f3f3
-  --color=border:#514942
-  --color=query:#f3f3f3
+  --color=info:#898078
+  --color=marker:#aaa19a
+  --color=prompt:#aaa19a
+  --color=spinner:#aaa19a
+  --color=pointer:#aaa19a
+  --color=header:#f1e6dc
+  --color=border:#898078
+  --color=query:#f1e6dc
   --color=gutter:#090909
   --highlight-line
   --info=inline-right

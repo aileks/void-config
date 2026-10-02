@@ -1,50 +1,50 @@
 [colors.primary]
 background = "#090909"
-foreground = "#f3f3f3"
+foreground = "#f1e6dc"
 
 [colors.cursor]
 text = "#090909"
-cursor = "#f3f3f3"
+cursor = "#fff6ed"
 
 [colors.selection]
 text = "#090909"
-background = "#f3f3f3"
+background = "#f1e6dc"
 
 [colors.search.matches]
-foreground = "#f3f3f3"
-background = "#514942"
+foreground = "#f1e6dc"
+background = "#1b1917"
 
 [colors.search.focused_match]
 foreground = "#090909"
-background = "#978e86"
+background = "#aaa19a"
 
 [colors.normal]
-black = "#8a8179"
-red = "#8c837b"
-green = "#978e86"
-yellow = "#aaa198"
-blue = "#8b827a"
-magenta = "#8e857d"
-cyan = "#9e958d"
+black = "#898078"
+red = "#948b83"
+green = "#a0978f"
+yellow = "#aba29a"
+blue = "#b6ada5"
+magenta = "#c2b9b1"
+cyan = "#cdc4bc"
 white = "#e0d7ce"
 
 [colors.bright]
-black = "#8a8179"
-red = "#8c837b"
-green = "#978e86"
-yellow = "#aaa198"
-blue = "#8b827a"
-magenta = "#8e857d"
-cyan = "#9e958d"
-white = "#fcf2e9"
+black = "#a9a098"
+red = "#b4aba3"
+green = "#c0b7af"
+yellow = "#cbc2ba"
+blue = "#d6cdc5"
+magenta = "#e2d9d1"
+cyan = "#ede4dc"
+white = "#fff6ed"
 
 # Explicit dim colors keep faint terminal text readable.
 [colors.dim]
-black = "#8a8179"
-red = "#8c837b"
-green = "#978e86"
-yellow = "#aaa198"
-blue = "#8b827a"
-magenta = "#8e857d"
-cyan = "#9e958d"
+black = "#898078"
+red = "#948b83"
+green = "#a0978f"
+yellow = "#aba29a"
+blue = "#b6ada5"
+magenta = "#c2b9b1"
+cyan = "#cdc4bc"
 white = "#e0d7ce"
