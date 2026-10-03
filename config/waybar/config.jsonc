@@ -4,17 +4,7 @@
   "height": 28,
   "spacing": 0,
   "on-sigusr1": "toggle",
-  "modules-left": [
-    "custom/tag1",
-    "custom/tag2",
-    "custom/tag3",
-    "custom/tag4",
-    "custom/tag5",
-    "custom/tag6",
-    "custom/tag7",
-    "custom/layout",
-    "custom/title",
-  ],
+  "modules-left": ["ext/workspaces", "custom/title"],
   "modules-right": [
     "custom/dnd",
     "pulseaudio",
@@ -26,60 +16,13 @@
     "clock",
     "tray",
   ],
-  "custom/tag1": {
-    "exec": "bar-mango tag 1",
-    "return-type": "json",
-    "tooltip": false,
-    "on-click": "mmsg dispatch view,1",
-    "on-click-right": "mmsg dispatch toggleview,1",
-  },
-  "custom/tag2": {
-    "exec": "bar-mango tag 2",
-    "return-type": "json",
-    "tooltip": false,
-    "on-click": "mmsg dispatch view,2",
-    "on-click-right": "mmsg dispatch toggleview,2",
-  },
-  "custom/tag3": {
-    "exec": "bar-mango tag 3",
-    "return-type": "json",
-    "tooltip": false,
-    "on-click": "mmsg dispatch view,3",
-    "on-click-right": "mmsg dispatch toggleview,3",
-  },
-  "custom/tag4": {
-    "exec": "bar-mango tag 4",
-    "return-type": "json",
-    "tooltip": false,
-    "on-click": "mmsg dispatch view,4",
-    "on-click-right": "mmsg dispatch toggleview,4",
-  },
-  "custom/tag5": {
-    "exec": "bar-mango tag 5",
-    "return-type": "json",
-    "tooltip": false,
-    "on-click": "mmsg dispatch view,5",
-    "on-click-right": "mmsg dispatch toggleview,5",
-  },
-  "custom/tag6": {
-    "exec": "bar-mango tag 6",
-    "return-type": "json",
-    "tooltip": false,
-    "on-click": "mmsg dispatch view,6",
-    "on-click-right": "mmsg dispatch toggleview,6",
-  },
-  "custom/tag7": {
-    "exec": "bar-mango tag 7",
-    "return-type": "json",
-    "tooltip": false,
-    "on-click": "mmsg dispatch view,7",
-    "on-click-right": "mmsg dispatch toggleview,7",
-  },
-  "custom/layout": {
-    "exec": "bar-mango layout",
-    "return-type": "json",
-    "tooltip": false,
-    "on-click": "mmsg dispatch switch_layout",
+  "ext/workspaces": {
+    "format": "{name}",
+    "sort-by-name": true,
+    "ignore-hidden": false,
+    "all-outputs": false,
+    "on-click": "activate",
+    "on-click-right": "deactivate",
   },
   "custom/title": {
     "exec": "bar-mango title",
@@ -107,7 +50,7 @@
     "format": " {usage}%",
     "interval": 5,
     "tooltip": false,
-    "on-click": "foot btop"
+    "on-click": "foot btop",
   },
   "temperature": {
     "hwmon-path-abs": "/sys/devices/pci0000:00/0000:00:18.3/hwmon",
@@ -125,7 +68,7 @@
     "exec": "nvidia-smi --query-gpu=utilization.gpu,temperature.gpu --format=csv,noheader,nounits | awk -F ', ' '{printf \"󰢮 %s%% %s°C\\n\", $1, $2}'",
     "interval": 5,
     "tooltip": false,
-    "on-click": "foot nvtop"
+    "on-click": "foot nvtop",
   },
   "network": {
     "format-wifi": "󰖩 {essid}",
@@ -140,7 +83,21 @@
   "clock": {
     "format": " {:%b %d %H:%M}",
     "interval": 1,
-    "tooltip": false,
+    "tooltip": true,
+    "tooltip-format": "<tt>{calendar}</tt>",
+    "calendar": {
+      "mode": "month",
+      "on-scroll": 1,
+      "format": {
+        "months": "<span color='#f1e6dc'><b>{}</b></span>",
+        "weekdays": "<span color='#aaa19a'>{}</span>",
+        "today": "<span color='#f1e6dc'><b><u>{}</u></b></span>",
+      },
+    },
+    "actions": {
+      "on-scroll-up": "shift_up",
+      "on-scroll-down": "shift_down",
+    },
   },
   "tray": {
     "icon-size": 16,

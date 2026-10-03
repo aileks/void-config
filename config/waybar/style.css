@@ -12,40 +12,40 @@ window#waybar {
   color: #f1e6dc;
 }
 
-#custom-tag1,
-#custom-tag2,
-#custom-tag3,
-#custom-tag4,
-#custom-tag5,
-#custom-tag6,
-#custom-tag7 {
-  padding: 0 6px;
+tooltip {
+  background: #1b1917;
+  color: #b6ada5;
+  border: 1px solid #504b47;
 }
 
-.modules-left .empty {
+tooltip label {
+  font-family: "Iosevka Nerd Font Mono";
+  padding: 10px;
+}
+
+#workspaces button {
+  background: transparent;
+  color: #f1e6dc;
+  padding: 0 6px;
+  box-shadow: none;
+  text-shadow: none;
+}
+
+#workspaces button.hidden {
   color: #898078;
 }
 
-.modules-left .occupied {
-  color: #f1e6dc;
-}
-
-.modules-left .urgent {
+#workspaces button.urgent {
   color: #aaa19a;
 }
 
-.modules-left .active {
+#workspaces button.active {
   background: #f1e6dc;
   color: #090909;
 }
 
-#custom-layout {
-  color: #aaa19a;
-  margin: 0 10px;
-}
-
 #custom-title {
-  margin-right: 10px;
+  margin: 0 10px;
 }
 
 .modules-right > widget > label {

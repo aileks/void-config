@@ -2,35 +2,11 @@
 
 set -Eeuo pipefail
 
-module=${1:-}
-tag=${2:-0}
-case "$module" in
-  tag) [[ $tag =~ ^[1-7]$ ]] && (($# == 2)) || exit 2 ;;
-  layout | title) (($# == 1)) || exit 2 ;;
-  *)
-    printf 'usage: bar-mango <tag 1..7|layout|title>\n' >&2
-    exit 2
-    ;;
-esac
-
-layouts='{}'
-if [[ $module == layout ]]; then
-  layouts=$(mmsg get layouts)
+if [[ $# -ne 1 || ${1:-} != title ]]; then
+  printf 'usage: bar-mango title\n' >&2
+  exit 2
 fi
 
-mmsg watch all-monitors | jq --unbuffered -c \
-  --arg module "$module" --argjson tag "$tag" --argjson layouts "$layouts" '
+mmsg watch all-monitors | jq --unbuffered -c '
   ([.monitors[]? | select(.active)][0] // {}) as $monitor |
-  if $module == "tag" then
-    ([$monitor.tags[]? | select(.index == $tag)][0] // {}) as $state |
-    {text: ($tag | tostring), class: [
-      (if $state.is_active then "active" else "inactive" end),
-      (if $state.is_urgent then "urgent"
-       elif ($state.client_count // 0) > 0 then "occupied" else "empty" end)
-    ]}
-  elif $module == "layout" then
-    ($layouts.layouts[$monitor.layout_index // 0].name // "") as $layout |
-    {text: $layout}
-  else
-    {text: ($monitor.active_client.title // "")}
-  end'
+  {text: ($monitor.active_client.title // "")}'
