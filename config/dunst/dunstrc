@@ -20,7 +20,7 @@ corner_radius = 0
 format = "<b>%s</b>\n%b"
 background = "#171614"
 foreground = "#f0eeeb"
-highlight = "#c2c1be"
+highlight = "#646361"
 timeout = 5
 
 [urgency_low]
@@ -28,7 +28,6 @@ timeout = 4
 
 [urgency_critical]
 frame_color = "#d9d7d4"
-highlight = "#d9d7d4"
 timeout = 0
 
 [volume]

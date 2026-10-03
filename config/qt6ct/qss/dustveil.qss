@@ -116,14 +116,14 @@ QSlider::handle:horizontal {
     width: 16px;
     margin: -7px 0;
     background-color: #171614;
-    border: 2px solid #d9d7d4;
+    border: 2px solid #f0eeeb;
 }
 
 QSlider::handle:vertical {
     height: 16px;
     margin: 0 -7px;
     background-color: #171614;
-    border: 2px solid #d9d7d4;
+    border: 2px solid #f0eeeb;
 }
 
 QSlider:focus::handle {
@@ -169,7 +169,7 @@ QTabBar::tab {
 
 QTabBar::tab:selected {
     background-color: #171614;
-    border-bottom: 2px solid #d9d7d4;
+    border-bottom: 2px solid #acaaa8;
 }
 
 QTabBar::tab:focus {
