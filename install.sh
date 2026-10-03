@@ -454,7 +454,9 @@ install_stow() {
   run mkdir -p -- "$config_home" "$target_home/.local/bin" "$data_home/applications"
   for target in \
     "$target_home"/.config/gtk-{3,4}.0/{settings.ini,gtk.css} \
-    "$target_home"/.config/qt6ct/colors/dustveil.conf; do
+    "$target_home"/.config/qt6ct/colors/dustveil.conf \
+    "$target_home"/.config/qt6ct/qss/dustveil.qss \
+    "$target_home"/.config/qt6ct/assets/{check,down,indeterminate,radio,up}.svg; do
     if [[ -L $target && $(readlink -f -- "$target") == "$repo/config/${target#"$config_home/"}" ]]; then
       continue
     fi

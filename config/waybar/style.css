@@ -8,14 +8,14 @@
 }
 
 window#waybar {
-  background: rgba(27, 25, 23, 0.95);
-  color: #f1e6dc;
+  background: rgba(23, 22, 20, 0.95);
+  color: #f0eeeb;
 }
 
 tooltip {
-  background: #1b1917;
-  color: #b6ada5;
-  border: 1px solid #504b47;
+  background: #171614;
+  color: #f0eeeb;
+  border: 1px solid #646361;
 }
 
 tooltip label {
@@ -25,23 +25,23 @@ tooltip label {
 
 #workspaces button {
   background: transparent;
-  color: #f1e6dc;
+  color: #f0eeeb;
   padding: 0 6px;
   box-shadow: none;
   text-shadow: none;
 }
 
 #workspaces button.hidden {
-  color: #898078;
+  color: #81807d;
 }
 
 #workspaces button.urgent {
-  color: #aaa19a;
+  color: #d9d7d4;
 }
 
 #workspaces button.active {
-  background: #f1e6dc;
-  color: #090909;
+  background: #acaaa8;
+  color: #171614;
 }
 
 #custom-title {
@@ -49,9 +49,9 @@ tooltip label {
 }
 
 .modules-right > widget > label {
-  color: #b6ada5;
+  color: #81807d;
   padding: 0 8px;
-  border-left: 1px solid #504b47;
+  border-left: 1px solid #646361;
 }
 
 #custom-dnd {

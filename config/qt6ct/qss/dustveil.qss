@@ -1,0 +1,206 @@
+QPushButton, QToolButton, QComboBox,
+QLineEdit, QAbstractSpinBox, QTextEdit, QPlainTextEdit {
+    color: #f0eeeb;
+    background-color: #171614;
+    border: 1px solid #81807d;
+    border-radius: 0;
+    min-height: 24px;
+    padding: 4px;
+    selection-color: #171614;
+    selection-background-color: #acaaa8;
+}
+
+QLineEdit, QAbstractSpinBox, QTextEdit, QPlainTextEdit {
+    background-color: #171614;
+}
+
+QLineEdit {
+    placeholder-text-color: #81807d;
+}
+
+QAbstractSpinBox QLineEdit, QComboBox QLineEdit {
+    border: none;
+    padding: 0;
+    min-height: 0;
+    background-color: transparent;
+}
+
+QPushButton:hover, QToolButton:hover, QComboBox:hover {
+    border-color: #c2c1be;
+}
+
+QPushButton:pressed, QToolButton:pressed,
+QPushButton:checked, QToolButton:checked {
+    color: #171614;
+    background-color: #acaaa8;
+}
+
+QPushButton:focus, QToolButton:focus, QComboBox:focus,
+QLineEdit:focus, QAbstractSpinBox:focus, QTextEdit:focus, QPlainTextEdit:focus {
+    border: 2px solid #f0eeeb;
+    padding: 3px;
+}
+
+QPushButton:checked:focus, QToolButton:checked:focus,
+QPushButton:pressed:focus, QToolButton:pressed:focus {
+    border-color: #171614;
+}
+
+QComboBox::drop-down, QAbstractSpinBox::up-button, QAbstractSpinBox::down-button {
+    width: 24px;
+    border-left: 1px solid #81807d;
+}
+
+QComboBox::down-arrow, QAbstractSpinBox::down-arrow {
+    image: url("/home/aileks/.config/qt6ct/assets/down.svg");
+    width: 12px;
+    height: 12px;
+}
+
+QAbstractSpinBox::up-arrow {
+    image: url("/home/aileks/.config/qt6ct/assets/up.svg");
+    width: 12px;
+    height: 12px;
+}
+
+QCheckBox, QRadioButton {
+    spacing: 8px;
+    min-height: 24px;
+    padding: 2px;
+    border: 2px solid transparent;
+}
+
+QCheckBox:focus, QRadioButton:focus {
+    border-color: #f0eeeb;
+}
+
+QCheckBox::indicator, QRadioButton::indicator {
+    width: 16px;
+    height: 16px;
+    background-color: #171614;
+    border: 2px solid #81807d;
+}
+
+QRadioButton::indicator {
+    border-radius: 10px;
+}
+
+QCheckBox::indicator:checked {
+    image: url("/home/aileks/.config/qt6ct/assets/check.svg");
+    background-color: #acaaa8;
+}
+
+QCheckBox::indicator:indeterminate {
+    image: url("/home/aileks/.config/qt6ct/assets/indeterminate.svg");
+    background-color: #acaaa8;
+}
+
+QRadioButton::indicator:checked {
+    image: url("/home/aileks/.config/qt6ct/assets/radio.svg");
+    background-color: #acaaa8;
+}
+
+QSlider::groove:horizontal {
+    height: 6px;
+    background-color: #171614;
+    border: 1px solid #81807d;
+}
+
+QSlider::groove:vertical {
+    width: 6px;
+    background-color: #171614;
+    border: 1px solid #81807d;
+}
+
+QSlider::handle:horizontal {
+    width: 16px;
+    margin: -7px 0;
+    background-color: #171614;
+    border: 2px solid #d9d7d4;
+}
+
+QSlider::handle:vertical {
+    height: 16px;
+    margin: 0 -7px;
+    background-color: #171614;
+    border: 2px solid #d9d7d4;
+}
+
+QSlider:focus::handle {
+    border-color: #f0eeeb;
+    background-color: #acaaa8;
+}
+
+QScrollBar {
+    background-color: #171614;
+}
+
+QScrollBar::handle {
+    background-color: #acaaa8;
+    min-width: 24px;
+    min-height: 24px;
+}
+
+QScrollBar::handle:hover, QScrollBar::handle:pressed {
+    background-color: #c2c1be;
+}
+
+QProgressBar {
+    color: #f0eeeb;
+    background-color: #171614;
+    border: 1px solid #81807d;
+    border-radius: 0;
+    text-align: center;
+    min-height: 24px;
+}
+
+/* Both the filled and unfilled portions must contrast with the same label. */
+QProgressBar::chunk {
+    background-color: #646361;
+}
+
+QTabBar::tab {
+    color: #f0eeeb;
+    background-color: #171614;
+    border: 1px solid #81807d;
+    border-radius: 0;
+    padding: 8px 12px;
+}
+
+QTabBar::tab:selected {
+    background-color: #171614;
+    border-bottom: 2px solid #d9d7d4;
+}
+
+QTabBar::tab:focus {
+    border-color: #f0eeeb;
+}
+
+QAbstractItemView {
+    background-color: #171614;
+    alternate-background-color: #171614;
+    selection-color: #171614;
+    selection-background-color: #acaaa8;
+    border: 1px solid #81807d;
+}
+
+QAbstractItemView:focus {
+    border: 2px solid #f0eeeb;
+}
+
+QMenu::item:selected {
+    color: #171614;
+    background-color: #acaaa8;
+}
+
+QToolTip {
+    color: #f0eeeb;
+    background-color: #171614;
+    border: 1px solid #81807d;
+}
+
+QPushButton:disabled, QToolButton:disabled, QComboBox:disabled,
+QLineEdit:disabled, QAbstractSpinBox:disabled, QTextEdit:disabled, QPlainTextEdit:disabled {
+    color: #81807d;
+    border-color: #646361;
+}
